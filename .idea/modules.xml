@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/v12.iml" filepath="$PROJECT_DIR$/v12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-api/v12-api.iml" filepath="$PROJECT_DIR$/v12-api/v12-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-basic/v12-basic.iml" filepath="$PROJECT_DIR$/v12-basic/v12-basic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-basic/v12-common/v12-common.iml" filepath="$PROJECT_DIR$/v12-basic/v12-common/v12-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-basic/v12-entity/v12-entity.iml" filepath="$PROJECT_DIR$/v12-basic/v12-entity/v12-entity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-basic/v12-mapper/v12-mapper.iml" filepath="$PROJECT_DIR$/v12-basic/v12-mapper/v12-mapper.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-api/v12-product-api/v12-product-api.iml" filepath="$PROJECT_DIR$/v12-api/v12-product-api/v12-product-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-service/v12-product-service/v12-product-service.iml" filepath="$PROJECT_DIR$/v12-service/v12-product-service/v12-product-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-service/v12-service.iml" filepath="$PROJECT_DIR$/v12-service/v12-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/v12-web/v12-web.iml" filepath="$PROJECT_DIR$/v12-web/v12-web.iml" />
+    </modules>
+  </component>
+</project>

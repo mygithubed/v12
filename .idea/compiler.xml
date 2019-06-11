@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="v12-common" />
+        <module name="v12-entity" />
+        <module name="v12-mapper" />
+        <module name="v12-product-api" />
+        <module name="v12-product-service" />
+        <module name="v12-service" />
+        <module name="v12-web" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="v12" target="1.5" />
+      <module name="v12-api" target="1.5" />
+      <module name="v12-basic" target="1.5" />
+      <module name="v12-common" target="1.5" />
+      <module name="v12-entity" target="1.5" />
+      <module name="v12-mapper" target="1.8" />
+      <module name="v12-product-api" target="1.5" />
+      <module name="v12-product-service" target="1.8" />
+      <module name="v12-service" target="1.5" />
+      <module name="v12-web" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
