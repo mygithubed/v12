@@ -1,12 +1,12 @@
 package com.it.v12productservice.service;
 
+import com.alibaba.dubbo.config.annotation.Service;
 import com.it.v12.api.IProdectService;
 import com.it.v12.common.base.BaseServiceImpl;
 import com.it.v12.common.base.IBaseDao;
 import com.it.v12.entity.TProduct;
 import com.it.v12.mapper.TProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 /**
  * Author:曾志鹏

@@ -4,3 +4,12 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
+
+dubbo:
+  application:
+    name: product__service
+  registry:
+    protocol: zookeeper
+    address: 192.168.52.130:2181
+  protocol:
+    port: 28810
