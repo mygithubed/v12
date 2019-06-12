@@ -7,8 +7,12 @@ import com.it.v12.api.IProdectService;
 import com.it.v12.common.base.BaseServiceImpl;
 import com.it.v12.common.base.IBaseDao;
 import com.it.v12.entity.TProduct;
+import com.it.v12.entity.TProductDesc;
+import com.it.v12.mapper.TProductDescMapper;
 import com.it.v12.mapper.TProductMapper;
+import com.it.v12.pojo.TProductVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -24,6 +28,9 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
 
     @Autowired
     private TProductMapper productMapper;
+
+    @Autowired
+    private TProductDescMapper productDescMapper;
 
     /**
      *
@@ -51,5 +58,29 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         PageInfo<TProduct> pageInfo = new PageInfo<TProduct>(list,2);
         //返回分页后的数据
         return pageInfo;
+    }
+
+    /**
+     * 返回新增商品的ID
+     * @param vo
+     * @return
+     */
+    @Override
+    @Transactional
+    public Long saves(TProductVO vo) {
+        //存储商品的信息
+        TProduct product = vo.getProduct();
+        //默认数据没有删除
+        product.setFlag(true);
+        //需要主键回填
+        int num = productMapper.insert(product);
+        //商品的描述信息
+        String productDesc = vo.getProductDesc();
+        TProductDesc desc  = new TProductDesc();
+        desc.setProductDesc(productDesc);
+        desc.setProductId(product.getId());
+        productDescMapper.insert(desc);
+
+        return product.getId();
     }
 }

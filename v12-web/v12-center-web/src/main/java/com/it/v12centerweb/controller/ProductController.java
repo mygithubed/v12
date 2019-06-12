@@ -1,17 +1,16 @@
 package com.it.v12centerweb.controller;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.alibaba.dubbo.rpc.filter.tps.TPSLimiter;
 import com.github.pagehelper.PageInfo;
 import com.it.v12.api.IProdectService;
 import com.it.v12.entity.TProduct;
+import com.it.v12.pojo.TProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import java.util.List;
 /**
  * Author:曾志鹏
@@ -26,7 +25,7 @@ public class ProductController {
     private IProdectService prodectService;
 
     /**
-     *
+     *根据ID查询数据
      * @param id
      * @return
      */
@@ -37,7 +36,7 @@ public class ProductController {
     }
 
     /**
-     *
+     *显示全部数据
      * @param model
      * @return
      */
@@ -51,6 +50,13 @@ public class ProductController {
         return "product/list";
     }
 
+    /**
+     * 分页的请求
+     * @param index
+     * @param size
+     * @param model
+     * @return
+     */
     @RequestMapping("page/{index}/{size}")
     public String pageList(@PathVariable("index") Integer index,
                        @PathVariable("size") Integer size,
@@ -61,5 +67,13 @@ public class ProductController {
         model.addAttribute("page",pages);
 
         return "product/list";
+    }
+
+    @PostMapping("add")
+    public String add(TProductVO vo){
+
+        Long ids  = prodectService.saves(vo);
+
+        return "redirect:/product/page/1/1";
     }
 }

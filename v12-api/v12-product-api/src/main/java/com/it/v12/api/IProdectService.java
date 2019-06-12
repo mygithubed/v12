@@ -3,6 +3,7 @@ package com.it.v12.api;
 import com.github.pagehelper.PageInfo;
 import com.it.v12.common.base.IBaseService;
 import com.it.v12.entity.TProduct;
+import com.it.v12.pojo.TProductVO;
 
 import java.util.List;
 
@@ -20,4 +21,11 @@ public interface IProdectService extends IBaseService<TProduct>{
      * @return
      */
     public PageInfo<TProduct> page(Integer pageIndex, Integer pageSize);
+
+    /**
+     * 返回新增商品的ID
+     * @param vo
+     * @return
+     */
+    public Long saves(TProductVO  vo);
 }

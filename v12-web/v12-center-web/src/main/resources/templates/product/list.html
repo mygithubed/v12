@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
 <head>
     <meta charset="UTF-8">
-    <title>商品的列表页面</title>
+    <title>商品列表</title>
     <base href="/">
 </head>
 <body>
@@ -15,8 +15,8 @@
     <!--按钮-->
     <div class="row">
         <div class="col-md-4 col-md-offset-8">
-            <button type="button" class="btn btn-primary">添加</button>
-            <button type="button" class="btn btn-danger">批量删除</button>
+            <button type="button" class="btn btn-primary" id="bt_add">添加</button>
+            <button type="button" class="btn btn-danger" id="bt_delete">批量删除</button>
         </div>
     </div>
     <!--列表-->
@@ -60,7 +60,7 @@
             <nav aria-label="Page navigation">
                 <ul class="pagination">
                     <li>
-                        <a href="#" aria-label="Previous" th:href="|product/page/${page.pageNum-1}/${page.pageSize}|">
+                        <a href="#" aria-label="Previous"  th:href="|product/page/${page.pageNum > 1 ? page.pageNum-1:page.pageNum}/${page.pageSize}|">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -69,7 +69,7 @@
                             <a href="#" th:href="|product/page/${pNum}/${page.pageSize}|" th:text="${pNum}">1</a>
                     </li>
                     <li>
-                        <a href="#" aria-label="Next" th:href="|product/page/${page.pageNum+1}/${page.pageSize}|">
+                        <a href="#" aria-label="Next" th:href="|product/page/${page.pageNum < page.pages ? page.pageNum+1 : page.pages}/${page.pageSize}|">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>
@@ -77,10 +77,97 @@
             </nav>
         </div>
     </div>
-
 </div>
 
+    <!--添加功能的弹框-->
+    <div class="modal fade" id="addModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">添加商品</h4>
+                </div>
+                <div class="modal-body">
+                  <!--表单的输入显示-->
+                    <form class="form-horizontal" id="addFrom" action="product/add" method="post">
+                        <div class="form-group">
+                            <label for="name" class="col-sm-2 control-label">商品名称</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="name" placeholder="请输入商品的名称！" name="product.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="price" class="col-sm-2 control-label">价格</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="price" placeholder="请输入商品的价格！" name="product.price">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePrice" class="col-sm-2 control-label">促销价</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="salePrice" placeholder="请输入商品的促销价！" name="product.salePrice">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="salePoint" class="col-sm-2 control-label">卖点</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="salePoint" placeholder="请输入商品的卖点！" name="product.salePoint">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="image" class="col-sm-2 control-label">图片</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="image" name="product.images">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="typeId" class="col-sm-2 control-label">商品类别</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" id="typeId" name="product.typeId">
+                                    <option value="1">电子数码</option>
+                                </select>
+                                <input type="hidden" value="电子数码" name="product.typeName"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="productDesc" class="col-sm-2 control-label">商品描述</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" rows="3" id="productDesc" name="productDesc"></textarea>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer col-md-4 col-md-offset-4">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+                    <button type="button" class="btn btn-primary" id="add_btn">添加</button>
+                </div>
+            </div>
+        </div>
+    </div><!-- /.modal -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
 <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+<script type="text/javascript">
+    $(function () {
+        //为添加的按钮绑定事件 backdrop:"static",--->设置只在点击按钮的时候关闭模态框   keyboard:false --->按下esc键不退出
+        $("#bt_add").click(function () {
+            $('#addModal').modal({
+                backdrop:"static",
+                keyboard:false
+            });
+        });
+
+        //为保存按钮绑定事件
+        $("#add_btn").click(function () {
+            //提交表单
+            $("#addFrom").submit();
+        });
+
+    });
+
+</script>
 </body>
 </html>
