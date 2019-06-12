@@ -15,12 +15,21 @@
   <sql id="Base_Column_List">
     id, name, price, sale_price, images, sale_point, type_id, type_name, flag
   </sql>
+
+  <select id="list" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_product
+    where flag = 1
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_product
     where id = #{id,jdbcType=BIGINT}
   </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_product
     where id = #{id,jdbcType=BIGINT}

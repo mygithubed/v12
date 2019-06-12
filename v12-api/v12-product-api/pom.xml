@@ -22,6 +22,14 @@
             <artifactId>v12-entity</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+
+        <!--分页的插件-->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>3.4.2</version>
+        </dependency>
+
     </dependencies>
 
 </project>

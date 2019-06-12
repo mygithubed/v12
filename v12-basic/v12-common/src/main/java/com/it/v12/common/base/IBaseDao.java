@@ -1,12 +1,18 @@
 package com.it.v12.common.base;
 
+import java.util.List;
+
 /**
- * Author:曾志鹏
- * Date:2019/6/11
- * Time:12:04
+ *
+ * @param <T>
  */
 public interface IBaseDao<T> {
 
+    /**
+     *
+     * @param id
+     * @return
+     */
     int deleteByPrimaryKey(Long id);
 
     int insert(T record);
@@ -20,4 +26,6 @@ public interface IBaseDao<T> {
     int updateByPrimaryKeyWithBLOBs(T record);
 
     int updateByPrimaryKey(T record);
+
+    public List<T> list();
 }

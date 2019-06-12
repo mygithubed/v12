@@ -1,7 +1,10 @@
 package com.it.v12.api;
 
+import com.github.pagehelper.PageInfo;
 import com.it.v12.common.base.IBaseService;
 import com.it.v12.entity.TProduct;
+
+import java.util.List;
 
 /**
  * Author:曾志鹏
@@ -9,5 +12,12 @@ import com.it.v12.entity.TProduct;
  * Time:17:11
  */
 public interface IProdectService extends IBaseService<TProduct>{
-    //编写独立的方法
+
+    /**
+     * 分页的方法
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+    public PageInfo<TProduct> page(Integer pageIndex, Integer pageSize);
 }

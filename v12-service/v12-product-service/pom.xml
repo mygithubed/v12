@@ -41,6 +41,8 @@
 			<version>1.0-SNAPSHOT</version>
 		</dependency>
 
+
+        <!-- 服务依赖的api-->
         <dependency>
             <groupId>com.it</groupId>
             <artifactId>v12-product-api</artifactId>

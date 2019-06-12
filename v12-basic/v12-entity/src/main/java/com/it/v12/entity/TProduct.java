@@ -1,6 +1,8 @@
 package com.it.v12.entity;
 
-public class TProduct {
+import java.io.Serializable;
+
+public class TProduct implements Serializable{
     private Long id;
 
     private String name;
