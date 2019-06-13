@@ -25,7 +25,6 @@ import java.util.List;
 public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IProdectService {
 
     //注入具体的
-
     @Autowired
     private TProductMapper productMapper;
 
@@ -80,7 +79,32 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         desc.setProductDesc(productDesc);
         desc.setProductId(product.getId());
         productDescMapper.insert(desc);
-
         return product.getId();
+    }
+
+    /**
+     * 批量的删除
+     * @param listId
+     * @return
+     */
+    @Override
+    public Long batchDel(List<Long> listId) {
+        return productMapper.batchUpdateByFlag(listId);
+    }
+
+    /**
+     * 逻辑删除及重写方法
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteByPrimaryKey(Long id) {
+        //更新语句
+        TProduct product = new TProduct();
+        //根据id
+        product.setId(id);
+        //逻辑的删除
+        product.setFlag(false);
+        return  productMapper.updateByPrimaryKeySelective(product);
     }
 }

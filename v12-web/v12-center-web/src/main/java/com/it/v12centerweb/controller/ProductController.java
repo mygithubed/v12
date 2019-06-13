@@ -3,14 +3,13 @@ package com.it.v12centerweb.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.github.pagehelper.PageInfo;
 import com.it.v12.api.IProdectService;
+import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.entity.TProduct;
 import com.it.v12.pojo.TProductVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 /**
  * Author:曾志鹏
@@ -69,11 +68,46 @@ public class ProductController {
         return "product/list";
     }
 
+    /**
+     * 添加功能的实现
+     * @param vo
+     * @return
+     */
     @PostMapping("add")
     public String add(TProductVO vo){
 
         Long ids  = prodectService.saves(vo);
 
         return "redirect:/product/page/1/1";
+    }
+
+    /**
+     * 批量删除的实现
+     * @param ids
+     * @return
+     */
+    @PostMapping("delteSelects")
+    @ResponseBody
+    public RsetBean bathchDel(@RequestParam List<Long> ids){
+        Long conts = prodectService.batchDel(ids);
+        if (conts > 0){
+            return new RsetBean("200","批量删除成功了！！");
+        }
+        return new RsetBean("404","批量删除失败！！！！");
+    }
+
+    /**
+     * 统一的一个类管理 传入前端的数据格式
+     * @param id
+     * @return
+     */
+    @PostMapping("deleteById/{id}")
+    @ResponseBody
+    public RsetBean delete(@PathVariable("id") Long id){
+       int num =  prodectService.deleteByPrimaryKey(id);
+       if (num > 0){
+           return new RsetBean("200","删除成功了！！");
+       }
+        return new RsetBean("404","删除失败！！！！");
     }
 }

@@ -145,4 +145,12 @@
       flag = #{flag,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <update id="batchUpdateByFlag" parameterType="java.util.List">
+    update t_product set flag=0 where id IN
+    <foreach collection="list" open="(" close=")" separator="," item="id">
+      #{id}
+    </foreach>
+  </update>
+
 </mapper>

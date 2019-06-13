@@ -28,4 +28,11 @@ public interface IProdectService extends IBaseService<TProduct>{
      * @return
      */
     public Long saves(TProductVO  vo);
+
+    /**
+     * 批量的删除
+     * @param listId
+     * @return
+     */
+    public Long batchDel(List<Long> listId);
 }

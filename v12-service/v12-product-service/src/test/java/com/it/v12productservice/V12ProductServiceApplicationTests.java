@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -21,24 +22,11 @@ public class V12ProductServiceApplicationTests {
 	private IProdectService prodectService;
 	@Test
 	public void contextLoads() {
-
-		TProduct p = new TProduct();
-		p.setName("华为手机");
-		p.setFlag(true);
-		p.setPrice(1122L);
-		p.setSalePoint("性能高！");
-		p.setSalePrice(1234L);
-		p.setImages("wu");
-		p.setTypeId(2L);
-		p.setTypeName("数码电子");
-
-		TProductVO vo = new TProductVO();
-		vo.setProductDesc("价格优惠，性能好！");
-		vo.setProduct(p);
-
-		Long id = prodectService.saves(vo);
-
-		System.out.println(id);
+		List<Long> list = new ArrayList<>();
+		list.add(4L);
+		list.add(5L);
+		Long l = prodectService.batchDel(list);
+		System.out.println(l);
 	}
 
 }

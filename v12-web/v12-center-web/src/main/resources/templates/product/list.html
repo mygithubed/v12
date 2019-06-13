@@ -16,7 +16,7 @@
     <div class="row">
         <div class="col-md-4 col-md-offset-8">
             <button type="button" class="btn btn-primary" id="bt_add">添加</button>
-            <button type="button" class="btn btn-danger" id="bt_delete">批量删除</button>
+            <button type="button" class="btn btn-danger" id="bt_deleteBatch">批量删除</button>
         </div>
     </div>
     <!--列表-->
@@ -25,7 +25,10 @@
             <!--表格展示数据-->
             <table class="table table-hover">
                 <tr>
-                    <td>ID</td>
+                    <td>
+                        全选
+                        <input type="checkbox" id="ckALL"/>
+                    </td>
                     <td>商品类别</td>
                     <td>名称 </td>
                     <td>价格</td>
@@ -35,15 +38,17 @@
                 </tr>
 
                 <tr th:each="p:${page.list}"><!--page.list-->
-                    <td th:text="${p.id}">ID</td>
+                    <td>
+                        <input type="checkbox" class="ckbx" th:value="${p.id}"/>
+                    </td>
                     <td th:text="${p.typeName}">商品类别</td>
                     <td th:text="${p.name}">名称 </td>
                     <td th:text="${p.price}">价格</td>
                     <td><img src="#" th:src="${p.images}"/></td>
                     <td th:text="${p.salePoint}">卖点</td>
                     <td>
-                        <button type="button" class="btn btn-primary btn-sm">修改</button>
-                        <button type="button" class="btn btn-danger btn-sm">删除</button>
+                        <button type="button" class="btn btn-primary btn-sm bt_update" th:id="${p.id}">修改</button>
+                        <button type="button" class="btn btn-danger btn-sm bt_delete" th:id="${p.id}">删除</button>
                     </td>
                 </tr>
             </table>
@@ -166,6 +171,69 @@
             $("#addFrom").submit();
         });
 
+        //为修改按钮绑定事件
+        $(".bt_update").click(function () {
+            //获取到ID
+            var id = $(this).prop("id");
+            alert(id);
+        });
+
+        //为删除按钮绑定事件
+        $(".bt_delete").click(function () {
+            //获取到ID
+            var id = $(this).prop("id");
+            if(confirm("确认需要删除吗？")){
+                $.ajax({
+                    url:"product/deleteById/"+id,
+                    type:"POST",
+                    success:function (data) {
+                        if(data.statCodes == 200){
+                            alert(data.data);
+                            location.reload();
+                        }else {
+                            alert(data.data);
+                        }
+                    }
+                });
+            }
+        });
+
+        //批量删除的实现
+        $("#bt_deleteBatch").click(function () {
+            //获取被选中的按钮
+          var checks =  $(".ckbx:checked");
+          if(checks.length > 0){
+            if(confirm("确定删除选中的数据！！")){
+                var ids = [];
+                for(var index =0;index<checks.length;index++){
+                    ids.push(checks[index].value);
+                }
+                //传入后台完成真正的删除功能
+                $.ajax({
+                    url:"product/delteSelects",
+                    type:"POST",
+                    data:"ids="+ids,
+                    success:function (data) {
+                        if(data.statCodes == 200){
+                            alert(data.data);
+                            location.reload();
+                        }else {
+                            alert(data.data);
+                        }
+                    }
+                });
+
+            }
+          }
+        });
+        //   bt_deleteBatch
+        //全选功能的实现
+        $(".ckbx").click(function () {
+            $("#ckALL").prop("checked",$(".ckbx").length == $(".ckbx:checked").length);
+        });
+        $("#ckALL").click(function () {
+            $(".ckbx").prop("checked",$(this).prop("checked"));
+        });
     });
 
 </script>
