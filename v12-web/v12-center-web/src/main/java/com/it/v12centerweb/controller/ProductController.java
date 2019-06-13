@@ -46,7 +46,7 @@ public class ProductController {
           //传入页面显示
         model.addAttribute("list",list);
         //页面的跳转
-        return "product/list";
+        return "product/ss";
     }
 
     /**
@@ -109,5 +109,19 @@ public class ProductController {
            return new RsetBean("200","删除成功了！！");
        }
         return new RsetBean("404","删除失败！！！！");
+    }
+
+    /**
+     * 查询需要修改的数据
+     * @param id
+     * @return
+     */
+    @PostMapping("toUpdate/{id}")
+    @ResponseBody
+    public RsetBean toUpdate(@PathVariable("id") Long id){
+        System.out.println(id+"jjjjjjjjjjjjjjjjjjjjjjjjjj");
+        TProduct product = prodectService.selectByPrimaryKey(id);
+        System.out.println(product);
+        return new RsetBean("200","修改！！");
     }
 }

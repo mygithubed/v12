@@ -93,6 +93,16 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
     }
 
     /**
+     * 根据ID来获取商品的信息
+     * @param id
+     * @return
+     */
+    @Override
+    public TProductVO getTProductVO(Long id) {
+        return null;
+    }
+
+    /**
      * 逻辑删除及重写方法
      * @param id
      * @return

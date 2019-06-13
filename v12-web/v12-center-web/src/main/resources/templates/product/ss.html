@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<tr th:each="p:${list}">
+    <td>
+        <input type="checkbox" class="ckbx" th:value="${p.id}"/>
+    </td>
+    <td th:text="${p.typeName}">商品类别</td>
+    <td th:text="${p.name}">名称 </td>
+    <td th:text="${p.price}">价格</td>
+    <td><img src="#" th:src="${p.images}"/></td>
+    <td th:text="${p.salePoint}">卖点</td>
+    <td>
+        <button type="button" class="btn btn-primary btn-sm bt_update" th:id="${p.id}">修改</button>
+        <button type="button" class="btn btn-danger btn-sm bt_delete" th:id="${p.id}">删除</button>
+    </td>
+</tr>
+</body>
+</html>

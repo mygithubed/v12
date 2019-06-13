@@ -35,4 +35,11 @@ public interface IProdectService extends IBaseService<TProduct>{
      * @return
      */
     public Long batchDel(List<Long> listId);
+
+    /**
+     * 根据ID来获取商品的信息
+     * @param id
+     * @return
+     */
+    public TProductVO getTProductVO(Long id);
 }
