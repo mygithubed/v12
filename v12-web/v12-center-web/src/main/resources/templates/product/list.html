@@ -37,7 +37,7 @@
                     <td>操作</td>
                 </tr>
 
-                <tr th:each="p:${page.list}"><!--page.list-->
+                <tr th:each="p:${page.list}">
                     <td>
                         <input type="checkbox" class="ckbx" th:value="${p.id}"/>
                     </td>
@@ -222,11 +222,11 @@
                         }
                     }
                 });
-
             }
+          }else{
+              alert("请选择需要删除的记录！！！")
           }
         });
-        //   bt_deleteBatch
         //全选功能的实现
         $(".ckbx").click(function () {
             $("#ckALL").prop("checked",$(".ckbx").length == $(".ckbx:checked").length);
