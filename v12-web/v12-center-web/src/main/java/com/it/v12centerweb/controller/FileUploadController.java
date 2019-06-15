@@ -39,7 +39,6 @@ public class FileUploadController {
     @RequestMapping("upload")
     @ResponseBody
     public RsetBean updateImage(MultipartFile file){
-        System.out.println(file);
         String filename = file.getOriginalFilename();
         String endName = filename.substring(filename.lastIndexOf(".")+1);
         try {
@@ -74,7 +73,6 @@ public class FileUploadController {
                 String path = new  StringBuilder(imageService).append(storePath.getFullPath()).toString();
                 //保存路劲
                 count[i] = path;
-
             }catch (IOException e){
                 e.printStackTrace();
                 return  new Wangeditor3UploadRestBean("1",null);

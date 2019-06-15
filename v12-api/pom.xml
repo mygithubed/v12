@@ -13,6 +13,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>v12-product-api</module>
+        <module>v12-search-api</module>
     </modules>
 
 

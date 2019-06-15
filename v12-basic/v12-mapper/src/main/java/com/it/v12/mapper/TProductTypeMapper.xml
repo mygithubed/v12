@@ -16,6 +16,12 @@
     from t_product_type
     where id = #{id,jdbcType=BIGINT}
   </select>
+  <select id="list"  resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_product_type
+    where flag = 1
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_product_type
     where id = #{id,jdbcType=BIGINT}

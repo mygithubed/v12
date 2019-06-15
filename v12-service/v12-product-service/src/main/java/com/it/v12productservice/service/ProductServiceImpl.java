@@ -54,7 +54,7 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         //2.获取数据
         List<TProduct> list = list();
         //3.构建一个分页对象,第二个参数是控制一次性显示几个下标页码数
-        PageInfo<TProduct> pageInfo = new PageInfo<TProduct>(list,2);
+        PageInfo<TProduct> pageInfo = new PageInfo<TProduct>(list,5);
         //返回分页后的数据
         return pageInfo;
     }

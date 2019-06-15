@@ -42,12 +42,12 @@
 
                 <tr th:each="p:${page.list}">
                     <td>
-                        <input type="checkbox" class="ckbx" th:value="${p.id}"/>
+                       ID: <span th:text="${p.id}"></span> <input type="checkbox" class="ckbx" th:value="${p.id}"/>
                     </td>
                     <td th:text="${p.typeName}">商品类别</td>
                     <td th:text="${p.name}">名称 </td>
                     <td th:text="${p.price}">价格</td>
-                    <td><img src="#" th:src="${p.images}"/></td>
+                    <td><img src="#" th:src="${p.images}" style="width:80px;height: 80px;"/></td>
                     <td th:text="${p.salePoint}">卖点</td>
                     <td>
                         <button type="button" class="btn btn-primary btn-sm bt_update" th:id="${p.id}">修改</button>
@@ -143,7 +143,6 @@
                             <label for="productDesc" class="col-sm-2 control-label">商品描述</label>
                             <div class="col-sm-9">
                                 <div id="editor">
-                                    <p>欢迎使用 <b>wangEditor</b> 富文本编辑器</p>
                                     <input type="hidden" id="productDescVal" name="productDesc"/>
                                 </div>
                             </div>
@@ -247,7 +246,7 @@
         //为保存按钮绑定事件
         $("#add_btn").click(function () {
             //将富文本框中的内容提交
-            var texted =  editor.txt.html();
+            var texted =  editor.txt.html();//因为需要显示所以是获取html的形式获取数据
             $("#productDescVal").val(texted);
             //提交表单
             $("#addFrom").submit();
@@ -368,6 +367,21 @@
                 $("#imageShows").attr("src",jsonData.data).show();
                 $("#imagePath").val(jsonData.data);
             }
+        });
+
+
+
+        //异步的加载商品类别的数据
+        $("#typeId").click(function () {
+           // alert("已经点击！");
+
+            $.ajax({
+                url:"product/findType",
+                type:"POST",
+                success:function (data) {
+
+                }
+            });
         });
     });
 

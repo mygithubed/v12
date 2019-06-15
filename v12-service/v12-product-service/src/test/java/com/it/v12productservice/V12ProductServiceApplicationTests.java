@@ -2,7 +2,9 @@ package com.it.v12productservice;
 
 import com.github.pagehelper.PageInfo;
 import com.it.v12.api.IProdectService;
+import com.it.v12.api.IProdectTypeService;
 import com.it.v12.entity.TProduct;
+import com.it.v12.entity.TProductType;
 import com.it.v12.pojo.TProductVO;
 import org.junit.Assert;
 import org.junit.Test;
@@ -20,13 +22,14 @@ public class V12ProductServiceApplicationTests {
 
 	@Autowired
 	private IProdectService prodectService;
+
+	@Autowired
+	private IProdectTypeService prodectTypeService;
 	@Test
 	public void contextLoads() {
-		List<Long> list = new ArrayList<>();
-		list.add(4L);
-		list.add(5L);
-		Long l = prodectService.batchDel(list);
-		System.out.println(l);
+		List<TProductType> lis = prodectTypeService.list();
+
+		System.out.println(lis.size());
 	}
 
 }

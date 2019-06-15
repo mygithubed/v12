@@ -78,7 +78,7 @@ public class ProductController {
 
         Long ids  = prodectService.saves(vo);
 
-        return "redirect:/product/page/1/1";
+        return "redirect:/product/page/1/5";
     }
 
     /**
