@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.it.v12.mapper.TProductMapper">
+  <!--返回的结果集-->
   <resultMap id="BaseResultMap" type="com.it.v12.entity.TProduct">
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -12,10 +13,11 @@
     <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="flag" jdbcType="BIT" property="flag" />
   </resultMap>
+  <!--sql片段-->
   <sql id="Base_Column_List">
     id, name, price, sale_price, images, sale_point, type_id, type_name, flag
   </sql>
-
+  <!--查询所有数据，flag标记为1的表述没有删除的数据-->
   <select id="list" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />

@@ -53,10 +53,10 @@
         </ul>
         <div class="srh">
             <div class="ipt f-l">
-                <input type="text" placeholder="搜索商品..." ss-search-show="sp" />
+                <input type="text" placeholder="搜索商品..." ss-search-show="sp" id="keyWords"/>
                 <input type="text" placeholder="搜索店铺..." ss-search-show="dp" style="display:none;" />
             </div>
-            <button class="f-r">搜 索</button>
+            <button class="f-r" id="selectWord">搜 索</button>
             <div style="clear:both;"></div>
         </div>
         <ul class="sp2">
@@ -1435,5 +1435,18 @@
         沪ICP备13044278号<span>|</span>合字B1.B2-20130004<span>|</span>营业执照<span>|</span>互联网药品信息服务资格证<span>|</span>互联网药品交易服务资格证
     </p>
 </div>
+
+<script src="js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript">
+ $(function () {
+     $("#selectWord").click(function () {
+         //获取输入框中的值
+        var keywords = $("#keyWords").val();
+        //发送请求
+         location.href="http://localhost:9092/search/selectByWords?keywords="+keywords;
+     });
+ })
+
+</script>
 </body>
 </html>

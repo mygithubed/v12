@@ -1,15 +1,23 @@
 package com.it.v12centerweb.controller;
 
+import ch.qos.logback.core.net.SyslogOutputStream;
+import com.alibaba.dubbo.common.json.JSON;
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
 import com.it.v12.api.IProdectService;
+import com.it.v12.api.IProdectTypeService;
 import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.entity.TProduct;
+import com.it.v12.entity.TProductType;
 import com.it.v12.pojo.TProductVO;
+import com.it.v12centerweb.pojo.ProductTypeResut;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * Author:曾志鹏
@@ -22,6 +30,9 @@ public class ProductController {
 
     @Reference
     private IProdectService prodectService;
+
+    @Reference
+    private IProdectTypeService prodectTypeService;
 
     /**
      *根据ID查询数据
@@ -123,5 +134,32 @@ public class ProductController {
         TProduct product = prodectService.selectByPrimaryKey(id);
         System.out.println(product);
         return new RsetBean("200","修改！！");
+    }
+
+
+    /**
+     * 查询商品的类别数据
+     * @return
+     */
+    @RequestMapping("selectProductType")
+    @ResponseBody
+    public String selectProductType(){
+        List<TProductType> list = prodectTypeService.list();
+        List<ProductTypeResut>  typeResuts = new ArrayList<>();
+        for (TProductType tProductType : list) {
+            Long id = tProductType.getId();
+            String name = tProductType.getName();
+            typeResuts.add(new ProductTypeResut(id,name));
+        }
+        JSONArray jsonArray = new JSONArray();
+        JSONObject jsonObject = null;
+        ProductTypeResut productTypeResut = null;
+        for (ProductTypeResut tesut : typeResuts) {
+            jsonObject = new JSONObject();
+            jsonObject.put("id",tesut.getId());
+            jsonObject.put("types",tesut.getTypes());
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray.toString();
     }
 }

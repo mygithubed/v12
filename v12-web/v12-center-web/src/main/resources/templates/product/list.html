@@ -134,7 +134,7 @@
                             <label for="typeId" class="col-sm-2 control-label">商品类别</label>
                             <div class="col-sm-9">
                                 <select class="form-control" id="typeId" name="product.typeId">
-                                    <option value="1">电子数码</option>
+
                                 </select>
                                 <input type="hidden" value="电子数码" name="product.typeName"/>
                             </div>
@@ -369,20 +369,29 @@
             }
         });
 
-
-
         //异步的加载商品类别的数据
         $("#typeId").click(function () {
-           // alert("已经点击！");
 
+            ajaxs();
+
+           // var lengs = $("#typeId").options.length;
+            var lengs = document.getElementById("#typeId").options.length;
+            console.log(lengs);
+        });
+
+        function ajaxs() {
             $.ajax({
-                url:"product/findType",
+                url:"product/selectProductType",
                 type:"POST",
                 success:function (data) {
-
+                    var datas=JSON.parse(data);
+                    for(var i = 0 ; i<datas.length;i++){
+                        $("#typeId").append("<option value='"+datas[i].id+"'>"+datas[i].types+"</option>");
+                    }
                 }
             });
-        });
+            return false;
+        }
     });
 
 </script>

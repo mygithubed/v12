@@ -1,11 +1,13 @@
 package com.it.v12.common.pojo;
 
+import java.io.Serializable;
+
 /**
  * Author:曾志鹏
  * Date:2019/6/12
  * Time:23:40
  */
-public class RsetBean<T> {
+public class RsetBean<T> implements Serializable{
 
     private  String statCodes;
 
