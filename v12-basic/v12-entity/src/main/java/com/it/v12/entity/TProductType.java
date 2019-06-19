@@ -1,7 +1,10 @@
 package com.it.v12.entity;
 
 import java.io.Serializable;
-
+/**
+ * 商品类型实体类
+ * @author Administrator
+ */
 public class TProductType implements Serializable{
     private Long id;
 

@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * Author:曾志鹏
  * Date:2019/6/15
  * Time:10:48
+ * @author
  */
 @Service
 public class ProdectTypeServiceImpl extends BaseServiceImpl<TProductType> implements IProdectTypeService {
@@ -23,4 +24,5 @@ public class ProdectTypeServiceImpl extends BaseServiceImpl<TProductType> implem
     public IBaseDao<TProductType> getBaseDao() {
         return productTypeMapper;
     }
+
 }

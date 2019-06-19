@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Author:曾志鹏
  * Date:2019/6/12
  * Time:23:40
+ * @author Administrator
  */
 public class RsetBean<T> implements Serializable{
 

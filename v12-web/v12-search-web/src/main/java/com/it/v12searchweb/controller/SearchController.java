@@ -5,12 +5,13 @@ import com.it.v12.api.ISearchApi;
 import com.it.v12.common.pojo.RsetBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * Author:曾志鹏
  * Date:2019/6/17
  * Time:16:57
+ * @author 曾志鹏
  */
 @Controller()
 @RequestMapping("search")
@@ -21,12 +22,30 @@ public class SearchController {
     
     @RequestMapping("selectByWords")
     public String selectByWords(String keywords, Model model){
-
         //获取到数据
         RsetBean rsetBean = searchApi.searchByKeyWord(keywords);
         //将数据存到model中
         model.addAttribute("list",rsetBean);
         //页面的回显
         return "list";
+    }
+
+
+    /**
+     * 分页的请求
+     * @param index
+     * @param size
+     * @param model
+     * @return
+     */
+    @RequestMapping("page/{index}/{size}")
+    public String pageList(@PathVariable("index") Integer index,
+                           @PathVariable("size") Integer size,
+                           String keywords,
+                            Model model){
+
+
+
+        return "product/list";
     }
 }

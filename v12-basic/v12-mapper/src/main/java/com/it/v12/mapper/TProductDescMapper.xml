@@ -80,4 +80,25 @@
     set product_id = #{productId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <!--根据商品的ID来查询商品的描述信息-->
+  <select id="selectProductDescByProductId" parameterType="java.lang.Long" resultType="java.lang.String">
+    SELECT
+      product_desc
+    FROM t_product_desc
+    WHERE
+    product_id = #{productId,jdbcType=BIGINT}
+  </select>
+  <!--根据商品的ID来更改商品的描述信息  updateByByProductId-->
+
+  <update id="updateByByProductId" parameterType="com.it.v12.entity.TProductDesc">
+    update t_product_desc
+    <set>
+      <if test="productDesc != null">
+        product_desc = #{productDesc,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where product_id = #{productId,jdbcType=BIGINT}
+  </update>
 </mapper>

@@ -1,9 +1,9 @@
 package com.it.v12centerweb.pojo;
 
 /**
- * Author:曾志鹏
  * Date:2019/6/14
  * Time:19:20
+ * @author 曾志鹏
  */
 public class Wangeditor3UploadRestBean {
 

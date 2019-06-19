@@ -1,7 +1,10 @@
 package com.it.v12.entity;
 
 import java.io.Serializable;
-
+/**
+ * 商品详情实体类
+ * @author Administrator
+ */
 public class TProductDesc implements Serializable{
     private Long id;
 

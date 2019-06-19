@@ -17,14 +17,14 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 /**
- * Author:曾志鹏
+ * author:曾志鹏
  * Date:2019/6/11
  * Time:17:15
+ * @author
  */
 @Service
 public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IProdectService {
 
-    //注入具体的
     @Autowired
     private TProductMapper productMapper;
 
@@ -102,6 +102,7 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         return null;
     }
 
+
     /**
      * 逻辑删除及重写方法
      * @param id
@@ -117,4 +118,24 @@ public class ProductServiceImpl extends BaseServiceImpl<TProduct> implements IPr
         product.setFlag(false);
         return  productMapper.updateByPrimaryKeySelective(product);
     }
+
+    /**
+     * 根据id来修改商品的信息和商品描述的信息
+     * @param vo
+     */
+    @Override
+    public void updateById(TProductVO vo) {
+        //商品的信息
+        TProduct product = vo.getProduct();
+        int num = productMapper.updateByPrimaryKeySelective(product);
+        //商品的描述信息
+        String productDesc = vo.getProductDesc();
+
+        TProductDesc desc  = new TProductDesc();
+        desc.setProductDesc(productDesc);
+        desc.setProductId(product.getId());
+        productDescMapper.updateByByProductId(desc);
+
+    }
+
 }

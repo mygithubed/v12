@@ -21,9 +21,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Author:曾志鹏
  * Date:2019/6/17
  * Time:11:19
+ * @author 曾志鹏
  */
 @Service
 public class SearchServiceImpl implements ISearchApi {
@@ -36,7 +36,7 @@ public class SearchServiceImpl implements ISearchApi {
     private SolrClient solrClient;
 
     /**
-     * 返回的RseBean是在 common中的pojo中定义的
+     * 返回的RseBean是在 common中的pojo中定义的   全量的同步
      * @return
      */
     @Override
@@ -103,6 +103,10 @@ public class SearchServiceImpl implements ISearchApi {
         //后置
         solrQuery.setHighlightSimplePost("</font>");
 
+
+        //分页的设置
+        //solrQuery.setStart(pageIndex)
+
         List<TProduct> productList = null;
         try {
             QueryResponse response = solrClient.query(solrQuery);
@@ -117,7 +121,7 @@ public class SearchServiceImpl implements ISearchApi {
             for (SolrDocument document : results) {
                 TProduct product = new TProduct();
                 product.setId(Long.parseLong(document.getFieldValue("id").toString()));
-              //product.setName(document.getFieldValue("product_name").toString());
+                /**product.setName(document.getFieldValue("product_name").toString());**/
                 product.setPrice(Long.parseLong(document.getFieldValue("product_price").toString()));
 
                 product.setSalePrice(Long.parseLong(document.getFieldValue("product_sale_price").toString()));
@@ -144,5 +148,46 @@ public class SearchServiceImpl implements ISearchApi {
         }
         //进行查询
         return new RsetBean("200",productList);
+    }
+
+    /**
+     * 根据ID进行增量同步
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public RsetBean queryDataById(Long id) {
+        //1、根据ID获取数据
+        TProduct product = productMapper.selectByPrimaryKey(id);
+        //2、构建document对象
+         SolrInputDocument document = new SolrInputDocument();
+        //ID
+        document.setField("id",product.getId());
+        //名称
+        document.setField("product_name",product.getName());
+        //价格
+        document.setField("product_price",product.getPrice());
+        //折后价
+        document.setField("product_sale_price",product.getSalePrice());
+        //卖点
+        document.setField("product_sale_point",product.getSalePoint());
+        //图片
+        document.setField("product_images",product.getImages());
+        //将数据添加
+        try {
+            solrClient.add(document);
+        } catch (SolrServerException | IOException e) {
+            e.printStackTrace();
+            return  new RsetBean("404","数据同步失败了！");
+        }
+        try {
+            //提交事务
+            solrClient.commit();
+        } catch (SolrServerException | IOException e) {
+            e.printStackTrace();
+            return  new RsetBean("404","数据同步失败了！");
+        }
+        return new RsetBean("200","数据同步成功了！");
     }
 }

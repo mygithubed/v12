@@ -8,7 +8,7 @@ import com.it.v12.pojo.TProductVO;
 import java.util.List;
 
 /**
- * Author:曾志鹏
+ * @author:曾志鹏
  * Date:2019/6/11
  * Time:17:11
  */
@@ -20,26 +20,32 @@ public interface IProdectService extends IBaseService<TProduct>{
      * @param pageSize
      * @return
      */
-    public PageInfo<TProduct> page(Integer pageIndex, Integer pageSize);
+    PageInfo<TProduct> page(Integer pageIndex, Integer pageSize);
 
     /**
      * 返回新增商品的ID
      * @param vo
      * @return
      */
-    public Long saves(TProductVO  vo);
+    Long saves(TProductVO vo);
 
     /**
      * 批量的删除
      * @param listId
      * @return
      */
-    public Long batchDel(List<Long> listId);
+    Long batchDel(List<Long> listId);
 
     /**
      * 根据ID来获取商品的信息
      * @param id
      * @return
      */
-    public TProductVO getTProductVO(Long id);
+    TProductVO getTProductVO(Long id);
+
+    /**
+     * 根据id来修改商品的信息和商品描述的信息
+     * @param vo
+     */
+    void updateById(TProductVO vo);
 }

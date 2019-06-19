@@ -136,14 +136,14 @@
                                 <select class="form-control" id="typeId" name="product.typeId">
 
                                 </select>
-                                <input type="hidden" value="电子数码" name="product.typeName"/>
+                                <input type="hidden" value="电子数码" id="typeName" name="product.typeName"/>
                             </div>
                         </div>
                         <div class="form-group">
                             <label for="productDesc" class="col-sm-2 control-label">商品描述</label>
                             <div class="col-sm-9">
                                 <div id="editor">
-                                    <input type="hidden" id="productDescVal" name="productDesc"/>
+                                    <input type="hidden" id="productDesc" name="productDesc"/>
                                 </div>
                             </div>
                         </div>
@@ -160,70 +160,78 @@
 
     <!--修改功能的弹框-->
     <div class="modal fade" id="editModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">修改商品</h4>
-                </div>
-                <div class="modal-body">
-                    <!--表单的输入显示-->
-                    <form class="form-horizontal" id="addFrom" action="product/edit" method="post">
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2 control-label">商品名称</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="name" placeholder="请输入商品的名称！" name="product.name">
-                            </div>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">修改商品</h4>
+            </div>
+            <div class="modal-body">
+                <!--表单的输入显示-->
+                <form class="form-horizontal" id="editFrom" action="product/edit" method="post">
+                    <input type="hidden" id="editId" name="product.id"/>
+                    <input type="hidden" id="editFlag" name="product.flag"/>
+                    <div class="form-group">
+                        <label for="editName" class="col-sm-2 control-label">商品名称</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="editName" name="product.name">
                         </div>
-                        <div class="form-group">
-                            <label for="price" class="col-sm-2 control-label">价格</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="price" placeholder="请输入商品的价格！" name="product.price">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editPrice" class="col-sm-2 control-label">价格</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="editPrice"  name="product.price">
                         </div>
-                        <div class="form-group">
-                            <label for="salePrice" class="col-sm-2 control-label">促销价</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="salePrice" placeholder="请输入商品的促销价！" name="product.salePrice">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSalePrice" class="col-sm-2 control-label">促销价</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="editSalePrice"  name="product.salePrice">
                         </div>
-                        <div class="form-group">
-                            <label for="salePoint" class="col-sm-2 control-label">卖点</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="salePoint" placeholder="请输入商品的卖点！" name="product.salePoint">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editSalePoint" class="col-sm-2 control-label">卖点</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="editSalePoint"  name="product.salePoint">
                         </div>
-                        <div class="form-group">
-                            <label for="image" class="col-sm-2 control-label">图片</label>
-                            <div class="col-sm-9">
-                                <input type="text" class="form-control" id="image" name="product.images">
-                            </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editFile_upload" class="col-sm-2 control-label">图片</label>
+                        <div class="col-sm-9">
+                            <input id="editFile_upload" name="file" type="file"/>
+                            <img src="#" id="editImageShows" style="width: 100px;height: 100px;">
+                            <input type="hidden" id="editImagePath" name="product.images">
                         </div>
-                        <div class="form-group">
-                            <label for="typeId" class="col-sm-2 control-label">商品类别</label>
-                            <div class="col-sm-9">
-                                <select class="form-control" id="typeId" name="product.typeId">
-                                    <option value="1">电子数码</option>
-                                </select>
-                                <input type="hidden" value="电子数码" name="product.typeName"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="productDesc" class="col-sm-2 control-label">商品描述</label>
-                            <div class="col-sm-9">
-                                <textarea class="form-control" rows="3" id="productDesc" name="productDesc"></textarea>
-                            </div>
-                        </div>
-                    </form>
+                    </div>
+                    <div class="form-group">
+                        <label for="editTypeId" class="col-sm-2 control-label">商品类别</label>
+                        <div class="col-sm-9">
+                            <select class="form-control" id="editTypeId" name="product.typeId">
 
-                </div>
-                <div class="modal-footer col-md-4 col-md-offset-4">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
-                    <button type="button" class="btn btn-primary" id="add_btn">修改</button>
-                </div>
+                            </select>
+                            <input type="hidden" value="电子数码" id="editTypeName" name="product.typeName"/>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="editProductDesc" class="col-sm-2 control-label">商品描述</label>
+                        <div class="col-sm-9">
+                            <div id="ediEeditor">
+                                <input type="hidden" id="editProductDesc" name="productDesc"/>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer col-md-4 col-md-offset-4">
+                <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+                <button type="button" class="btn btn-primary" id="edit_btn">修改</button>
             </div>
         </div>
-    </div><!-- /.modal -->
+    </div>
+</div><!-- /.modal -->
+
+
 <!--富文本编辑器的js文件-->
 <script src="https://unpkg.com/wangeditor/release/wangEditor.min.js"></script>
 
@@ -241,37 +249,93 @@
                 backdrop:"static",
                 keyboard:false
             });
+            //获取商品类别的数据
+            getProductType();
         });
 
         //为保存按钮绑定事件
         $("#add_btn").click(function () {
             //将富文本框中的内容提交
             var texted =  editor.txt.html();//因为需要显示所以是获取html的形式获取数据
-            $("#productDescVal").val(texted);
+            $("#productDesc").val(texted);
             //提交表单
             $("#addFrom").submit();
         });
 
+        //获取编辑的数据
+        function getEditData(id) {
+            $.ajax({
+                url:"product/toUpdate/"+id,
+                type:"POST",
+                success:function (data) {
+                    //返回该ID的具体商品信息
+                    console.log(data.data);
+                    /*
+                    console.log(data.data);
+                    console.log(data.data.product.id);
+                    console.log(data.data.product.salePoint);
+                    console.log(data.data.product.price);
+                    */
+                    $("#editId").val(data.data.product.id);
+                    $("#editFlag").val(data.data.product.flag);
+                    $("#editName").val(data.data.product.name);
+                    $("#editPrice").val(data.data.product.price);
+                    $("#editSalePrice").val(data.data.product.salePrice);
+                    $("#editSalePoint").val(data.data.product.salePoint);
+                    $("#editImageShows").attr("src",data.data.product.images).show();
+                    $("#editImagePath").val(data.data.product.images);
+                    $("#editTypeId").val(data.data.product.typeId);
+                    $("#editTypeName").val(data.data.product.typeName);
+                    //富文本框中的数据回显
+                    editEditor.txt.html(`${data.data.productDesc}`);
+
+                }
+            });
+        }
         //为修改按钮绑定事件
-        $(".bt_update").click(function () {
+     $(".bt_update").click(function () {
             //获取到ID
             var id = $(this).prop("id");
             if(confirm("确认需要修改数据吗？")){
+                //先清空数据
+                $("#editTypeId").empty();
+                //发送ajax请求获取所有的商品分类数据
                 $.ajax({
-                    url:"product/toUpdate/"+id,
+                    url:"product/selectProductType",
                     type:"POST",
                     success:function (data) {
-                       //返回该ID的具体商品信息
-                        alert(data);
+                        var datas=JSON.parse(data);
+                        for(var i = 0 ; i<datas.length;i++){
+                            $("#editTypeId").append("<option value='"+datas[i].id+"'>"+datas[i].types+"</option>");
+                        }
                     }
                 });
+                //获取编辑的数据
+                getEditData(id);
+                //显示弹出框
+                $('#editModal').modal({
+                    backdrop:"static",
+                    keyboard:false
+                });
             }
-          $('#editModal').modal({
-                backdrop:"static",
-                keyboard:false
-            });
         });
 
+        //给修改的商品类别赋值
+        $("#editTypeId").click(function () {
+            var texts = $("#editTypeId option:selected").text();
+            //给商品的ID赋值
+            $("#editTypeName").val(texts);
+        });
+
+        //为修改后数据保存按钮绑定事件
+        $("#edit_btn").click(function () {
+            //将富文本框中的内容提交
+            var textes =  editEditor.txt.html();//因为需要显示所以是获取html的形式获取数据
+            console.log(textes);
+            $("#editProductDesc").val(textes);
+            //提交表单
+            $("#editFrom").submit();
+        });
         //为删除按钮绑定事件
         $(".bt_delete").click(function () {
             //获取到ID
@@ -329,7 +393,8 @@
             $(".ckbx").prop("checked",$(this).prop("checked"));
         });
 
-        //富文本编辑器实现
+        //start===========
+        //添加商品的富文本编辑器实现
         var E = window.wangEditor;
         var editor = new E('#editor');
         // 自定义菜单配置
@@ -353,8 +418,38 @@
         editor.customConfig.uploadImgServer = 'file/uploads';
 
         editor.create();
+        //end================
 
-        //文件上传的实现
+
+        //start===========
+        //修改商品的富文本编辑器实现
+        var editE = window.wangEditor;
+        var editEditor = new editE('#ediEeditor');
+        // 自定义菜单配置
+        editEditor.customConfig.menus = [
+            'head',  // 标题
+            'bold',  // 粗体
+            'fontSize',  // 字号
+            'foreColor',  // 文字颜色
+            'backColor',  // 背景颜色
+            'link',  // 插入链接
+            'quote',  // 引用
+            'emoticon',  // 表情
+            'image',  // 插入图片
+            'code',  // 插入代码
+            'undo',  // 撤销
+            'redo'  // 重复
+        ]
+        //自定义上传图片的名字
+        editEditor.customConfig.uploadFileName = 'files';
+        // 配置服务器端地址
+        editEditor.customConfig.uploadImgServer = 'file/uploads';
+
+        editEditor.create();
+
+        //end================
+
+        //添加时候的文件上传的实现
         $("#file_upload").uploadifive({
             'uploadScript':'file/upload',
             'buttonText':'上传图片',
@@ -369,17 +464,38 @@
             }
         });
 
-        //异步的加载商品类别的数据
-        $("#typeId").click(function () {
-
-            ajaxs();
-
-           // var lengs = $("#typeId").options.length;
-            var lengs = document.getElementById("#typeId").options.length;
-            console.log(lengs);
+        //修改时的文件上传
+        $("#editFile_upload").uploadifive({
+            'uploadScript':'file/upload',
+            'buttonText':'上传图片',
+            'buttonClass'  : 'someClass',
+            'fileObjName':'file',
+            'onUploadComplete' : function(file,data) {
+                var jsonData = JSON.parse(data);
+                console.log(data);
+                console.log(file);
+                $("#editImageShows").attr("src",jsonData.data).show();
+                $("#editImagePath").val(jsonData.data);
+            }
         });
 
-        function ajaxs() {
+        //异步的加载商品类别的数据
+        $("#typeId").click(function () {
+            var texts = $("#typeId option:selected").text();
+            //给商品的ID赋值
+          $("#typeName").val(texts);
+            //  console.log("点击了！");
+            //  var vales =  $("#typeId").val();
+            //  console.log(vales);
+            //  console.log(texts);
+            //  console.log($("#typeName").val());
+        });
+
+        //发送ajax请求获取商品类别的数据信息
+        function getProductType() {
+            //先清空option中的值
+            $("#typeId").empty();
+            //发送ajax请求获取数据
             $.ajax({
                 url:"product/selectProductType",
                 type:"POST",
@@ -390,7 +506,6 @@
                     }
                 }
             });
-            return false;
         }
     });
 

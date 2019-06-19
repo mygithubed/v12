@@ -1,7 +1,7 @@
 package com.it.v12centerweb.pojo;
 
 /**
- * Author:曾志鹏
+ * @author:曾志鹏
  * Date:2019/6/15
  * Time:16:54
  */

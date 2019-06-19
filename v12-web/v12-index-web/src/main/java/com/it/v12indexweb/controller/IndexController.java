@@ -26,7 +26,7 @@ public class IndexController {
     public String index(Model model){
         //调用服务获取到商品的类别 信息
         List<TProductType> listTProductType = prodectTypeService.list();
-
+        //将数据存储到model中
         model.addAttribute("list",listTProductType);
 
         return "index";

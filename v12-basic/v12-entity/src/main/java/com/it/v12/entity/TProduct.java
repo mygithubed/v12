@@ -2,6 +2,10 @@ package com.it.v12.entity;
 
 import java.io.Serializable;
 
+/**
+ * 商品的实体类
+ * @author Administrator
+ */
 public class TProduct implements Serializable{
     private Long id;
 
@@ -91,5 +95,21 @@ public class TProduct implements Serializable{
 
     public void setFlag(Boolean flag) {
         this.flag = flag;
+    }
+
+
+    @Override
+    public String toString() {
+        return "TProduct{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", price=" + price +
+                ", salePrice=" + salePrice +
+                ", images='" + images + '\'' +
+                ", salePoint='" + salePoint + '\'' +
+                ", typeId=" + typeId +
+                ", typeName='" + typeName + '\'' +
+                ", flag=" + flag +
+                '}';
     }
 }

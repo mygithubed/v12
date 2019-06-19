@@ -7,10 +7,10 @@ import org.springframework.context.annotation.Configuration;
 import java.util.Properties;
 
 /**
- * Author:曾志鹏
  * Date:2019/6/11
  * Time:23:55
  * 分页功能的实现
+ * @author 曾志鹏
  */
 @Configuration
 public class CommonConfig {
