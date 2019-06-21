@@ -107,7 +107,7 @@ public class ProductController {
         /**searchApi.syncAllData();**/
         //searchApi.queryDataById(ids);
         /**生成商品对应的页面**/
-       // HttpClientUtils.doGet("http://localhost:9093/item/createHtml/"+ids);
+        HttpClientUtils.doGet("http://localhost:9093/item/createHtml/"+ids);
 
         /**发送一个消息到交换机**/
         rabbitTemplate.convertAndSend(RabbitMQConstant.CENTER_PRODUCT_ADD_EXCHANGE,"product_add",ids);
