@@ -8,12 +8,15 @@ import com.it.v12.api.IProdectDescService;
 import com.it.v12.api.IProdectService;
 import com.it.v12.api.IProdectTypeService;
 import com.it.v12.api.ISearchApi;
+import com.it.v12.common.constant.RabbitMQConstant;
 import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.common.utils.HttpClientUtils;
 import com.it.v12.entity.TProduct;
 import com.it.v12.entity.TProductType;
 import com.it.v12.pojo.TProductVO;
 import com.it.v12centerweb.pojo.ProductTypeResut;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +44,9 @@ public class ProductController {
 
     @Reference
     private ISearchApi searchApi;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     /**
      *根据ID查询数据
@@ -99,9 +105,12 @@ public class ProductController {
 
         //通知索引系统添加索引系统进行同步
         /**searchApi.syncAllData();**/
-        searchApi.queryDataById(ids);
-        //生成商品对应的页面
-        HttpClientUtils.doGet("http://localhost:9093/item/createHtml/"+ids);
+        //searchApi.queryDataById(ids);
+        /**生成商品对应的页面**/
+       // HttpClientUtils.doGet("http://localhost:9093/item/createHtml/"+ids);
+
+        /**发送一个消息到交换机**/
+        rabbitTemplate.convertAndSend(RabbitMQConstant.CENTER_PRODUCT_ADD_EXCHANGE,"product_add",ids);
 
         return "redirect:/product/page/1/5";
     }
