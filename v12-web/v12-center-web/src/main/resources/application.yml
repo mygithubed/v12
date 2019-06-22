@@ -1,0 +1,34 @@
+dubbo:
+  application:
+    name: center__web
+  registry:
+    protocol: zookeeper
+    address: 192.168.52.130:2181
+server:
+  port: 9090
+
+fdfs:
+  so-timeout: 1500
+  connect-timeout: 600
+  pool:
+    jmx-enabled: false
+  thumb-image:
+    width: 100
+    height: 100
+  tracker-list: 192.168.52.130:22122
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+
+  rabbitmq:
+    host: 192.168.52.130
+    port: 5672
+    username: zzp
+    password: zzp
+    virtual-host: /zzp
+
+
+image:
+  service: http://192.168.52.130/
