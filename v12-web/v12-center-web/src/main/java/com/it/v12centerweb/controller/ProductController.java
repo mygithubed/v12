@@ -42,8 +42,8 @@ public class ProductController {
     @Reference
     private IProdectDescService prodectDescService;
 
-    @Reference
-    private ISearchApi searchApi;
+    //@Reference
+    //private ISearchApi searchApi;
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -107,6 +107,7 @@ public class ProductController {
         /**searchApi.syncAllData();**/
         //searchApi.queryDataById(ids);
         /**生成商品对应的页面**/
+
         HttpClientUtils.doGet("http://localhost:9093/item/createHtml/"+ids);
 
         /**发送一个消息到交换机**/
@@ -155,11 +156,11 @@ public class ProductController {
     public RsetBean toUpdate(@PathVariable("id") Long id){
         //根据商品的ID来查询对应商品的信息
         TProduct product = prodectService.selectByPrimaryKey(id);
-        System.out.println("商品的信息");
+        System.out.println("编辑前查询的商品的信息");
         System.out.println(product);
         //根据商品的ID来查询对应商品的描述信息
         String productDesc =prodectDescService.selectByproductDesc(id);
-        System.out.println("商品的描述信息：");
+        System.out.println("编辑前查询出商品的描述信息：");
         System.out.println(productDesc);
 
         TProductVO tProductVO = new TProductVO();
@@ -206,8 +207,8 @@ public class ProductController {
         TProduct product = vo.getProduct();
         String productDesc = vo.getProductDesc();
 
-        System.out.println("商品："+product);
-        System.out.println("商品的描述：");
+        System.out.println("修改后的商品："+product);
+        System.out.println("修改后商品的描述：");
         System.out.println(productDesc);
 
         prodectService.updateById(vo);

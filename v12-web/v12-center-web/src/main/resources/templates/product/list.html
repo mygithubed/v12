@@ -215,7 +215,7 @@
                     <div class="form-group">
                         <label for="editProductDesc" class="col-sm-2 control-label">商品描述</label>
                         <div class="col-sm-9">
-                            <div id="ediEeditor">
+                            <div id="editEditor">
                                 <input type="hidden" id="editProductDesc" name="productDesc"/>
                             </div>
                         </div>
@@ -322,6 +322,7 @@
 
         //给修改的商品类别赋值
         $("#editTypeId").click(function () {
+            //修改的商品类别信息赋值
             var texts = $("#editTypeId option:selected").text();
             //给商品的ID赋值
             $("#editTypeName").val(texts);
@@ -424,7 +425,7 @@
         //start===========
         //修改商品的富文本编辑器实现
         var editE = window.wangEditor;
-        var editEditor = new editE('#ediEeditor');
+        var editEditor = new editE('#editEditor');
         // 自定义菜单配置
         editEditor.customConfig.menus = [
             'head',  // 标题
