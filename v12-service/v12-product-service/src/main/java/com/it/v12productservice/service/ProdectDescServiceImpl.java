@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Service
 public class ProdectDescServiceImpl extends BaseServiceImpl<TProductDesc> implements IProdectDescService {
 
-
-
     @Autowired
     private TProductDescMapper productDescMapper;
 

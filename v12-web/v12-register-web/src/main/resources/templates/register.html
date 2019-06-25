@@ -67,11 +67,18 @@
     <div style="clear:both;"></div>
 </div>
 
-<!--内容开始-->
-<div class="password-con registered">
+<button id="show_Phone">手机验证</button>
+<button id="show_Email">邮箱验证</button>
+<!--手机验证-->
+<div class="password-con registered" id="phone_regist">
     <div class="psw">
         <p class="psw-p1">用户名</p>
-        <input type="text" placeholder="HR了" />
+        <input type="text" placeholder="请输入用户名！" />
+        <span class="dui"></span>
+    </div>
+    <div class="psw">
+        <p class="psw-p1">昵称</p>
+        <input type="text" placeholder="请输入昵称！" />
         <span class="dui"></span>
     </div>
     <div class="psw">
@@ -85,8 +92,8 @@
         <span class="cuo">密码不一致，请重新输入</span>
     </div>
     <div class="psw psw2">
-        <p class="psw-p1">手机号/邮箱</p>
-        <input type="text" placeholder="请输入手机/邮箱验证码" />
+        <p class="psw-p1">手机号</p>
+        <input type="text" placeholder="请输入手机验证码" />
         <button>获取短信验证码</button>
     </div>
     <div class="psw psw3">
@@ -110,6 +117,49 @@
     </div>
     <button class="psw-btn">立即注册</button>
     <p class="sign-in">已有账号？请<a href="#">登录</a></p>
+</div>
+
+<!--邮箱验证-->
+<div class="password-con registered" id="email_regist">
+    <form action="" method="post">
+    <div class="psw">
+        <p class="psw-p1">用户名</p>
+        <input type="text" placeholder="请输入用户名！" name="username" />
+        <span class="dui"></span>
+    </div>
+    <div class="psw">
+        <p class="psw-p1">昵称</p>
+        <input type="text" placeholder="请输入昵称！" name="niceName"/>
+        <span class="dui"></span>
+    </div>
+    <div class="psw">
+        <p class="psw-p1">输入密码</p>
+        <input type="text" placeholder="请输入密码" name="password" />
+        <span class="cuo">密码由6-16的字母、数字、符号组成</span>
+    </div>
+    <div class="psw">
+        <p class="psw-p1">确认密码</p>
+        <input type="text" placeholder="请再次确认密码" name="password"/>
+        <span class="cuo">密码不一致，请重新输入</span>
+    </div>
+    <div class="psw psw2">
+        <p class="psw-p1">邮箱</p>
+        <input type="text" placeholder="请输入邮箱，用于激活用户！" name="email" />
+    </div>
+    <div class="yanzhentu">
+        <div class="yz-tu f-l">
+            <img src="images/psw-yanzhengtu.gif" />
+        </div>
+        <p class="f-l">看不清？<a href="#">换张图</a></p>
+        <div style="clear:both;"></div>
+    </div>
+    <div class="agreement">
+        <input type="checkbox" name="hobby"></input>
+        <p>我有阅读并同意<span>《宅客微购网站服务协议》</span></p>
+    </div>
+    <button class="psw-btn">立即注册</button>
+    <p class="sign-in">已有账号？请<a href="#">登录</a></p>
+    </form>
 </div>
 
 <!--底部服务-->
@@ -180,6 +230,17 @@
         沪ICP备13044278号<span>|</span>合字B1.B2-20130004<span>|</span>营业执照<span>|</span>互联网药品信息服务资格证<span>|</span>互联网药品交易服务资格证
     </p>
 </div>
+<script type="text/javascript" >
+    $("#phone_regist").hide();
+    $("#show_Email").click(function(){
+        $("#email_regist").show();
+        $("#phone_regist").hide();
+    });
 
+    $("#show_Phone").click(function(){
+        $("#phone_regist").show();
+        $("#email_regist").hide();
+    });
+</script>
 </body>
 </html>

@@ -11,11 +11,12 @@
     <result column="regist_date" jdbcType="TIMESTAMP" property="registDate" />
     <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate" />
     <result column="uuid" jdbcType="VARCHAR" property="uuid" />
-    <result column="flag" jdbcType="TINYINT" property="flag" />
+    <result column="start" jdbcType="BIT" property="start" />
+    <result column="flag" jdbcType="BIT" property="flag" />
   </resultMap>
   <sql id="Base_Column_List">
     id, username, nice_name, password, email, phone, regist_date, last_login_date, uuid, 
-    flag
+    start, flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -31,11 +32,11 @@
     insert into t_user (id, username, nice_name, 
       password, email, phone, 
       regist_date, last_login_date, uuid, 
-      flag)
+      start, flag)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{niceName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
       #{registDate,jdbcType=TIMESTAMP}, #{lastLoginDate,jdbcType=TIMESTAMP}, #{uuid,jdbcType=VARCHAR}, 
-      #{flag,jdbcType=TINYINT})
+      #{start,jdbcType=BIT}, #{flag,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.it.v12.entity.TUser">
     insert into t_user
@@ -66,6 +67,9 @@
       </if>
       <if test="uuid != null">
         uuid,
+      </if>
+      <if test="start != null">
+        start,
       </if>
       <if test="flag != null">
         flag,
@@ -99,8 +103,11 @@
       <if test="uuid != null">
         #{uuid,jdbcType=VARCHAR},
       </if>
+      <if test="start != null">
+        #{start,jdbcType=BIT},
+      </if>
       <if test="flag != null">
-        #{flag,jdbcType=TINYINT},
+        #{flag,jdbcType=BIT},
       </if>
     </trim>
   </insert>
@@ -131,8 +138,11 @@
       <if test="uuid != null">
         uuid = #{uuid,jdbcType=VARCHAR},
       </if>
+      <if test="start != null">
+        start = #{start,jdbcType=BIT},
+      </if>
       <if test="flag != null">
-        flag = #{flag,jdbcType=TINYINT},
+        flag = #{flag,jdbcType=BIT},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -147,7 +157,8 @@
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
       uuid = #{uuid,jdbcType=VARCHAR},
-      flag = #{flag,jdbcType=TINYINT}
+      start = #{start,jdbcType=BIT},
+      flag = #{flag,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

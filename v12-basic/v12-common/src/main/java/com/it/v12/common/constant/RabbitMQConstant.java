@@ -14,4 +14,6 @@ public interface RabbitMQConstant {
 
     String PRODUCT_SEARCH_QUEUE ="product_search_queue";
 
+    String REGISTER_EXCHAGE ="register_exchange";
+
 }

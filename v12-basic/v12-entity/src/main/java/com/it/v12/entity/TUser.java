@@ -1,11 +1,9 @@
 package com.it.v12.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-/**
- *
- */
-public class TUser {
+public class TUser implements Serializable{
     private Long id;
 
     private String username;
@@ -24,7 +22,9 @@ public class TUser {
 
     private String uuid;
 
-    private Byte flag;
+    private Boolean start;
+
+    private Boolean flag;
 
     public Long getId() {
         return id;
@@ -98,11 +98,36 @@ public class TUser {
         this.uuid = uuid == null ? null : uuid.trim();
     }
 
-    public Byte getFlag() {
+    public Boolean getStart() {
+        return start;
+    }
+
+    public void setStart(Boolean start) {
+        this.start = start;
+    }
+
+    public Boolean getFlag() {
         return flag;
     }
 
-    public void setFlag(Byte flag) {
+    public void setFlag(Boolean flag) {
         this.flag = flag;
+    }
+
+    @Override
+    public String toString() {
+        return "TUser{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", niceName='" + niceName + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", registDate=" + registDate +
+                ", lastLoginDate=" + lastLoginDate +
+                ", uuid='" + uuid + '\'' +
+                ", start=" + start +
+                ", flag=" + flag +
+                '}';
     }
 }
