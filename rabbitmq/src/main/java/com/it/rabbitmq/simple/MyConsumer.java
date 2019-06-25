@@ -26,15 +26,16 @@ public class MyConsumer {
         Connection connection = connectionFactory.newConnection();
 
         Channel channel = connection.createChannel();
-
+        //创建一个消费者的对象
         Consumer consumer =  new DefaultConsumer(channel){
+        //等着队列有消息后，自动回调
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
                 String message = new String(body,"UTF-8");
                 System.out.println(message);
             }
         };
-        //等回调
+        //让消费者监听队列  参数1：队列的名称 参数2：自动应答，自动告知服务器消息已经被消费 参数3：那个消费端关注队列
         channel.basicConsume(QUEUE_NAME,true,consumer);
 
     }

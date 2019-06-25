@@ -37,6 +37,6 @@ public class MyConsumer {
             }
         };
         //等回调
-        channel.basicConsume(QUEUE_NAME,true,consumer);
+        channel.basicConsume(QUEUE_NAME,false,consumer);
     }
 }

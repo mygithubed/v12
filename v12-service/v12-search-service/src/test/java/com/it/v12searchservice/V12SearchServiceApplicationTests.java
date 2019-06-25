@@ -1,6 +1,7 @@
 package com.it.v12searchservice;
 
 import com.it.v12.api.ISearchApi;
+import com.it.v12.common.pojo.PageResultBean;
 import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.entity.TProduct;
 import org.apache.solr.client.solrj.SolrClient;
@@ -30,6 +31,27 @@ public class V12SearchServiceApplicationTests {
 	private ISearchApi searchApi;
 
 
+	@Test
+	public void queryPages(){
+		PageResultBean pageResultBean = searchApi.searchPagesByKeyWord("华为", 1L, 2L);
+
+		for (Object o : pageResultBean.getList()) {
+			
+		}
+
+		/*RsetBean<PageResultBean> rsetBean = searchApi.searchPagesByKeyWord("华为", 1L, 2L);
+		System.out.println("每页显示的条数："+rsetBean.getData().getPageSize());
+		System.out.println("总记录数："+rsetBean.getData().getTotal());
+		System.out.println("当前页数："+rsetBean.getData().getPageNum());
+		System.out.println("总页数："+rsetBean.getData().getPages());
+		System.out.println("集合的大小："+rsetBean.getData().getList().size());
+		System.out.println("导航的页码数："+rsetBean.getData().getNavigatePages());
+		System.out.println("导航的集合数："+rsetBean.getData().getNavigatepageNums().length);
+		for (Object tProduct : rsetBean.getData().getList()) {
+			System.out.println(tProduct);
+		}*/
+
+	}
 	@Test
 	public void queryBywoksList(){
 		RsetBean<List<TProduct>> rsetBean = searchApi.searchByKeyWord("");

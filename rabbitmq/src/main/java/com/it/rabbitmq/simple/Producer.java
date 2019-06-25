@@ -23,7 +23,7 @@ public class Producer {
         connectionFactory.setUsername("zzp");
         connectionFactory.setPassword("zzp");
         Connection connection = connectionFactory.newConnection();
-
+        //本次通讯的通道
         Channel channel = connection.createChannel();
         //3. 声明一个队列
         channel.queueDeclare(QUEUE_NAME,false,false,false,null);

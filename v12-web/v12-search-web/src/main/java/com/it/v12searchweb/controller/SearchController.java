@@ -3,6 +3,7 @@ package com.it.v12searchweb.controller;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.it.v12.api.ISearchApi;
 import com.it.v12.common.pojo.RsetBean;
+import com.it.v12.common.pojo.PageResultBean;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,7 +31,7 @@ public class SearchController {
         return "list";
     }
 
-    //TODD
+     //TODO  实现分页的搜索
     /**
      * 分页的请求
      * @param index
@@ -39,13 +40,14 @@ public class SearchController {
      * @return
      */
     @RequestMapping("page/{index}/{size}")
-    public String pageList(@PathVariable("index") Integer index,
-                           @PathVariable("size") Integer size,
+    public String pageList(@PathVariable("index") Long index,
+                           @PathVariable("size") Long size,
                            String keywords,
                             Model model){
-
-
-
-        return "product/list";
+        PageResultBean pageResultBeanRsetBean = searchApi.searchPagesByKeyWord(keywords, index, size);
+        //将数据存到model中
+        model.addAttribute("list",pageResultBeanRsetBean);
+        //页面的回显
+        return "pageList";
     }
 }

@@ -14,16 +14,15 @@ import org.springframework.stereotype.Component;
  * Time:20:42
  */
 @Component
-@RabbitListener(queues = RabbitMQConstant.PRODUCT_SEARCH_QUEUE)
 public class ProductHander {
 
     @Reference
     private ISearchApi searchApi;
 
     @RabbitHandler
+    @RabbitListener(queues = RabbitMQConstant.PRODUCT_SEARCH_QUEUE)
     public void productAdd(Long id){
         //同步id
         searchApi.queryDataById(id);
-        System.out.println(id);
     }
 }

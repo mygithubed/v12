@@ -1,8 +1,8 @@
 package com.it.v12.api;
 
 import com.it.v12.common.pojo.RsetBean;
+import com.it.v12.common.pojo.PageResultBean;
 
-import java.util.ResourceBundle;
 
 /**
  * 全量同步数据接口 （初始化）
@@ -31,4 +31,13 @@ public interface ISearchApi {
      * @return
      */
      RsetBean queryDataById(Long id);
+
+    /**
+     * 分页显示搜索的结果
+     * @param searchWords
+     * @param pageIndex
+     * @param pageSize
+     * @return
+     */
+     PageResultBean searchPagesByKeyWord(String searchWords, Long pageIndex, Long pageSize);
 }

@@ -26,20 +26,23 @@ public class MyConsumer1 {
         Connection connection = connectionFactory.newConnection();
 
         Channel channel = connection.createChannel();
-
-        channel.basicQos(4);
-
+        //表示每次只接受的消息数量  起到限流的作用
+        channel.basicQos(1);
         Consumer consumer =  new DefaultConsumer(channel){
             @Override
             public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 String message = new String(body,"UTF-8");
                 System.out.println("消费者2："+message);
-
                 //处理完后手工的回复结果  false:是否批量的确认
                 channel.basicAck(envelope.getDeliveryTag(),false);
             }
         };
-        //等回调
+        // 将自动回复模式改为false
         channel.basicConsume(QUEUE_NAME,false,consumer);
     }
 }

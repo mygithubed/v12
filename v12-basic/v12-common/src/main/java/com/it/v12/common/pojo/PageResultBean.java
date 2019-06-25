@@ -1,4 +1,4 @@
-package com.it.v12searchservice.pojo;
+package com.it.v12.common.pojo;
 
 import java.io.Serializable;
 import java.util.List;
