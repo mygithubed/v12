@@ -1,0 +1,8 @@
+spring:
+  mail:
+    host: smtp.qq.com
+    username: 2493360725@qq.com
+    password: kkjixwrgflqueacf
+    default-encoding: utf-8
+mail:
+    fromAddress: 2493360725@qq.com

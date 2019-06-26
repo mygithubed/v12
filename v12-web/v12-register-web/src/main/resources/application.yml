@@ -1,0 +1,24 @@
+dubbo:
+  application:
+    name: register_web
+  registry:
+    protocol: zookeeper
+    address: 192.168.52.130:2181
+server:
+  port: 9094
+
+spring:
+  rabbitmq:
+    host: 192.168.52.130
+    port: 5672
+    username: zzp
+    password: zzp
+    virtual-host: /zzp
+
+  redis:
+    host: 192.168.52.130
+    port: 6379
+    password: zzp
+    jedis:
+      pool:
+        max-active: 66

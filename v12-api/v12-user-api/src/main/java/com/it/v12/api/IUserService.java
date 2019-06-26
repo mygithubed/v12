@@ -9,5 +9,10 @@ import com.it.v12.entity.TUser;
  * Time:11:43
  */
 public interface IUserService extends IBaseService<TUser>{
-
+    /**
+     * 根据ID来激活用户
+     * @param id
+     * @return
+     */
+    void updateStart(Long id);
 }

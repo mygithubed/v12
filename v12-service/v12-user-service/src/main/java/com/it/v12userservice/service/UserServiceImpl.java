@@ -25,9 +25,17 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
         return userMapper;
     }
 
-    public TUser getUseById(){
-        TUser tUser = userMapper.selectByPrimaryKey(1L);
-        return tUser;
+
+    @Override
+    public int insertSelective(TUser record) {
+        super.insertSelective(record);
+        //返回主键的信息
+        return  record.getId().intValue();
+    }
+
+    @Override
+    public void updateStart(Long id) {
+         userMapper.updateUserStart(id);
     }
 }
 

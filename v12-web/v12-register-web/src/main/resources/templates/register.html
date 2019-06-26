@@ -66,19 +66,21 @@
     </div>
     <div style="clear:both;"></div>
 </div>
-
-<button id="show_Phone">手机验证</button>
-<button id="show_Email">邮箱验证</button>
+<div style="margin-left:500px; margin-bottom: 20px;">
+    <button id="show_Phone">手机验证</button>
+    <button id="show_Email">邮箱验证</button>
+</div>
 <!--手机验证-->
 <div class="password-con registered" id="phone_regist">
+    <form action="user/add" method="post" id="phone_Form">
     <div class="psw">
         <p class="psw-p1">用户名</p>
-        <input type="text" placeholder="请输入用户名！" />
+        <input type="text" placeholder="请输入用户名！" name="username"/>
         <span class="dui"></span>
     </div>
     <div class="psw">
         <p class="psw-p1">昵称</p>
-        <input type="text" placeholder="请输入昵称！" />
+        <input type="text" placeholder="请输入昵称！"  name="niceName"/>
         <span class="dui"></span>
     </div>
     <div class="psw">
@@ -88,12 +90,12 @@
     </div>
     <div class="psw">
         <p class="psw-p1">确认密码</p>
-        <input type="text" placeholder="请再次确认密码" />
+        <input type="text" placeholder="请再次确认密码" name="password" />
         <span class="cuo">密码不一致，请重新输入</span>
     </div>
     <div class="psw psw2">
         <p class="psw-p1">手机号</p>
-        <input type="text" placeholder="请输入手机验证码" />
+        <input type="text" placeholder="请输入手机验证码" name="phone" />
         <button>获取短信验证码</button>
     </div>
     <div class="psw psw3">
@@ -112,53 +114,55 @@
         <div style="clear:both;"></div>
     </div>
     <div class="agreement">
-        <input type="checkbox" name="hobby"></input>
+        <input type="checkbox" name="hobby"/>
         <p>我有阅读并同意<span>《宅客微购网站服务协议》</span></p>
     </div>
     <button class="psw-btn">立即注册</button>
-    <p class="sign-in">已有账号？请<a href="#">登录</a></p>
+    <p class="sign-in">已有账号？请<a href="#" id="phoneSubmitBtn">登录</a></p>
+    </form>
 </div>
 
 <!--邮箱验证-->
 <div class="password-con registered" id="email_regist">
-    <form action="" method="post">
+    <form action="user/add" method="post" id="email_Form">
     <div class="psw">
         <p class="psw-p1">用户名</p>
-        <input type="text" placeholder="请输入用户名！" name="username" />
-        <span class="dui"></span>
+        <input type="text" placeholder="请输入用户名！" id="username" name="username" />
+        <span id="username1"></span>
     </div>
     <div class="psw">
         <p class="psw-p1">昵称</p>
-        <input type="text" placeholder="请输入昵称！" name="niceName"/>
-        <span class="dui"></span>
+        <input type="text" placeholder="请输入昵称！" id="niceName" name="niceName"/>
+        <span  id="niceName1"></span>
     </div>
     <div class="psw">
         <p class="psw-p1">输入密码</p>
-        <input type="text" placeholder="请输入密码" name="password" />
-        <span class="cuo">密码由6-16的字母、数字、符号组成</span>
+        <input type="text" placeholder="请输入密码" id="password"/>
+        <span id="password1"></span>
     </div>
     <div class="psw">
         <p class="psw-p1">确认密码</p>
-        <input type="text" placeholder="请再次确认密码" name="password"/>
-        <span class="cuo">密码不一致，请重新输入</span>
+        <input type="text" placeholder="请再次确认密码" id="rpassword" name="password"/>
+        <span id="rpassword1"></span>
     </div>
     <div class="psw psw2">
         <p class="psw-p1">邮箱</p>
-        <input type="text" placeholder="请输入邮箱，用于激活用户！" name="email" />
+        <input type="text" placeholder="请输入邮箱，用于激活用户！" id="email" name="email" />
+        <span id="email1"></span>
     </div>
     <div class="yanzhentu">
         <div class="yz-tu f-l">
             <img src="images/psw-yanzhengtu.gif" />
         </div>
-        <p class="f-l">看不清？<a href="#">换张图</a></p>
+        <p class="f-l">看不清？<a href="javaScript:void(0);">换张图</a></p>
         <div style="clear:both;"></div>
     </div>
     <div class="agreement">
-        <input type="checkbox" name="hobby"></input>
+        <input type="checkbox" name="hobby" id="checkboxed"/>
         <p>我有阅读并同意<span>《宅客微购网站服务协议》</span></p>
     </div>
-    <button class="psw-btn">立即注册</button>
-    <p class="sign-in">已有账号？请<a href="#">登录</a></p>
+    <button  type="button"  id="submitBtn" class="psw-btn">立即注册</button>
+    <p class="sign-in">已有账号？请<a href="javaScript:void(0);">登录</a></p>
     </form>
 </div>
 
@@ -231,16 +235,116 @@
     </p>
 </div>
 <script type="text/javascript" >
+    $(function () {
+        var flag = [false,false,false,false,false];
+        //判断用户名是否合法
+        $("#username").blur(function(){
+            $("#username1").removeClass("dui");
+            //获取输入框中的值
+            if($.trim($(this).val())==""){
+                $("#username1").html("用户名不能为空！");
+                $("#username1").addClass("cuo");
+            }else{
+                $("#username1").html("");
+                $("#username1").addClass("dui");
+                flag[0] = true;
+            }
+        });
+        //判断昵称是否合法
+        $("#niceName").blur(function(){
+            $("#niceName1").removeClass("dui");
+            //获取输入框中的值
+            if($.trim($(this).val())==""){
+                $("#niceName1").html("昵称不能为空！");
+                $("#niceName1").addClass("cuo");
+            }else{
+                $("#niceName1").html("");
+                $("#niceName1").addClass("dui");
+                flag[1] = true;
+            }
+        });
+        //密码的校验
+        $("#password").blur(function(){
+            var reg =/^\w{4,8}$/;
+            $("#password1").removeClass("dui");
+            if($.trim($(this).val())==""){
+                $("#password1").html("密码不能为空！");
+                $("#password1").addClass("cuo");
+            }else if(!reg.test($(this).val())){
+                $("#password1").html("请输入4-8位的字母或数字");
+                $("#password1").addClass("cuo");
+            }else{
+                $("#password1").html("");
+                $("#password1").addClass("dui");
+                flag[2] = true;
+            }
+        });
+        //确认密码的校验
+        $("#rpassword").blur(function(){
+            $("#rpassword").removeClass("dui");
+            if($.trim($(this).val())==""){
+                $("#rpassword1").html("密码不能为空！");
+                $("#rpassword1").addClass("cuo");
+            }else if($(this).val()!=$("#password").val()){
+                $("#rpassword1").html("两次输入的密码不一致！");
+                $("#rpassword1").addClass("cuo");
+            }else{
+                $("#rpassword1").html("");
+                $("#rpassword1").addClass("dui");
+                flag[3] = true;
+            }
+        });
+        //判断邮箱是否为空值
+        $("#email").blur(function(){
+            var reg =/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/;
+            $("#email1").removeClass("dui");
+            //获取输入框中的值
+            if($.trim($(this).val())==""){
+                $("#email1").html("邮箱不能为空！");
+                $("#email1").addClass("cuo");
+            }else if(!reg.test($(this).val())){
+                $("#email1").html("请输入有效的邮箱！");
+                $("#email1").addClass("cuo");
+            }else{
+                $("#email1").html("");
+                $("#email1").addClass("dui");
+                flag[4] = true;
+            }
+        });
+
+
+        //邮箱注册的提交事件
+        $("#submitBtn").click(function () {
+            var btne = true;
+            for (var i=0;i<flag.length;i++) {
+                if(flag[i]==false){
+                    btne = false;
+                    break;
+                }
+            }
+            if(btne==true){
+              $("#email_Form").submit();
+            }
+        })
+
+    });
+
+    //邮箱验证和手机验证的切换
     $("#phone_regist").hide();
     $("#show_Email").click(function(){
         $("#email_regist").show();
         $("#phone_regist").hide();
     });
-
     $("#show_Phone").click(function(){
         $("#phone_regist").show();
         $("#email_regist").hide();
     });
+
+
+    //手机注册的提交事件
+    $("#phoneSubmitBtn").click(function () {
+        $("#phone_Form").submit();
+    })
 </script>
 </body>
 </html>

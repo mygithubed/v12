@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -39,8 +40,8 @@ public class UserController {
     @Autowired
     private TemplateEngine templateEngine;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
+    @Resource(name="stringReadis")
+    private RedisTemplate<String,Object> redisTemplate;
 
     /**
      * 前往注册的页面
@@ -54,11 +55,10 @@ public class UserController {
 
     @RequestMapping("add")
     public String register(TUser user){
-
-        int insert = userService.insert(user);
-
-        if(insert>0){
-
+        user.setFlag(true);
+        int id = userService.insertSelective(user);
+        System.out.println(user);
+        if(id>0){
             //模板的生成
             Context context = new Context();
             context.setVariable("username",user.getUsername());
@@ -67,11 +67,10 @@ public class UserController {
             context.setVariable("url",url);
             String text = templateEngine.process("email.html",context);
 
-
             //在Redis中保存UUId
-            redisTemplate.opsForValue().set("uuid",uuid);
+            redisTemplate.opsForValue().set(uuid,id+"");
 
-            //发送消息到交换机
+            /**发送消息到交换机**/
             Map<String,String> map = new HashMap<>();
             map.put("toAddress",user.getEmail());
             map.put("subject","疯狂购物商城的激活邮件");
@@ -81,6 +80,14 @@ public class UserController {
         return "login";
     }
 
+    @RequestMapping("activer/{uuid}")
+    public String activerUser(@PathVariable String uuid){
+        //在redis中查出对应的用户ID
+        Long id = Long.parseLong(String.valueOf(redisTemplate.opsForValue().get(uuid)));
+        //通过ID来修改用户的状态，激活用户
+        userService.updateStart(id);
+        return "activer";
+    }
     @ResponseBody
     @RequestMapping("getById/{id}")
     public TUser getUserById(@PathVariable Long id){

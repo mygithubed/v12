@@ -12,19 +12,17 @@ public class TUser implements Serializable{
 
     private String password;
 
-    private String email;
+    private String email="jdijii";
 
-    private String phone;
+    private String phone = "231";
 
-    private Date registDate;
+    private Date registDate = new Date();
 
-    private Date lastLoginDate;
+    private Date lastLoginDate = new Date();
 
-    private String uuid;
+    private Boolean start =false;
 
-    private Boolean start;
-
-    private Boolean flag;
+    private Boolean flag=false;
 
     public Long getId() {
         return id;
@@ -90,14 +88,6 @@ public class TUser implements Serializable{
         this.lastLoginDate = lastLoginDate;
     }
 
-    public String getUuid() {
-        return uuid;
-    }
-
-    public void setUuid(String uuid) {
-        this.uuid = uuid == null ? null : uuid.trim();
-    }
-
     public Boolean getStart() {
         return start;
     }
@@ -125,7 +115,6 @@ public class TUser implements Serializable{
                 ", phone='" + phone + '\'' +
                 ", registDate=" + registDate +
                 ", lastLoginDate=" + lastLoginDate +
-                ", uuid='" + uuid + '\'' +
                 ", start=" + start +
                 ", flag=" + flag +
                 '}';

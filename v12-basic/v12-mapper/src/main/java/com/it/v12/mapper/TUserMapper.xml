@@ -10,12 +10,11 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="regist_date" jdbcType="TIMESTAMP" property="registDate" />
     <result column="last_login_date" jdbcType="TIMESTAMP" property="lastLoginDate" />
-    <result column="uuid" jdbcType="VARCHAR" property="uuid" />
     <result column="start" jdbcType="BIT" property="start" />
     <result column="flag" jdbcType="BIT" property="flag" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, nice_name, password, email, phone, regist_date, last_login_date, uuid, 
+    id, username, nice_name, password, email, phone, regist_date, last_login_date,
     start, flag
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
@@ -31,14 +30,14 @@
   <insert id="insert" parameterType="com.it.v12.entity.TUser">
     insert into t_user (id, username, nice_name, 
       password, email, phone, 
-      regist_date, last_login_date, uuid, 
+      regist_date, last_login_date,
       start, flag)
     values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{niceName,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{registDate,jdbcType=TIMESTAMP}, #{lastLoginDate,jdbcType=TIMESTAMP}, #{uuid,jdbcType=VARCHAR}, 
+      #{registDate,jdbcType=TIMESTAMP}, #{lastLoginDate,jdbcType=TIMESTAMP},
       #{start,jdbcType=BIT}, #{flag,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.it.v12.entity.TUser">
+  <insert id="insertSelective" parameterType="com.it.v12.entity.TUser" useGeneratedKeys="true" keyProperty="id">
     insert into t_user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -64,9 +63,6 @@
       </if>
       <if test="lastLoginDate != null">
         last_login_date,
-      </if>
-      <if test="uuid != null">
-        uuid,
       </if>
       <if test="start != null">
         start,
@@ -100,9 +96,6 @@
       <if test="lastLoginDate != null">
         #{lastLoginDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="uuid != null">
-        #{uuid,jdbcType=VARCHAR},
-      </if>
       <if test="start != null">
         #{start,jdbcType=BIT},
       </if>
@@ -135,9 +128,6 @@
       <if test="lastLoginDate != null">
         last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
       </if>
-      <if test="uuid != null">
-        uuid = #{uuid,jdbcType=VARCHAR},
-      </if>
       <if test="start != null">
         start = #{start,jdbcType=BIT},
       </if>
@@ -156,9 +146,19 @@
       phone = #{phone,jdbcType=VARCHAR},
       regist_date = #{registDate,jdbcType=TIMESTAMP},
       last_login_date = #{lastLoginDate,jdbcType=TIMESTAMP},
-      uuid = #{uuid,jdbcType=VARCHAR},
       start = #{start,jdbcType=BIT},
       flag = #{flag,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+
+
+
+  <!--根据用户的ID来激活用户-->
+  <update id="updateUserStart" parameterType="java.lang.Long">
+    update t_user
+    set
+    start = 1
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

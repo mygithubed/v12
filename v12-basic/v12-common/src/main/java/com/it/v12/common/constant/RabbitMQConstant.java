@@ -16,4 +16,6 @@ public interface RabbitMQConstant {
 
     String REGISTER_EXCHAGE ="register_exchange";
 
+    String EMAIL_QUEUE ="email_queue";
+
 }
