@@ -137,12 +137,12 @@
     </div>
     <div class="psw">
         <p class="psw-p1">输入密码</p>
-        <input type="text" placeholder="请输入密码" id="password"/>
+        <input type="password" placeholder="请输入密码" id="password"/>
         <span id="password1"></span>
     </div>
     <div class="psw">
         <p class="psw-p1">确认密码</p>
-        <input type="text" placeholder="请再次确认密码" id="rpassword" name="password"/>
+        <input type="password" placeholder="请再次确认密码" id="rpassword" name="password"/>
         <span id="rpassword1"></span>
     </div>
     <div class="psw psw2">
@@ -312,7 +312,6 @@
             }
         });
 
-
         //邮箱注册的提交事件
         $("#submitBtn").click(function () {
             var btne = true;
@@ -322,7 +321,11 @@
                     break;
                 }
             }
-            if(btne==true){
+            //判断协议是否被勾选
+            if(!$("#checkboxed").is(":checked")){
+                alert("请同意宅客微购网站服务协议！")
+            }
+            if(btne==true && $("#checkboxed").is(":checked")){
               $("#email_Form").submit();
             }
         })

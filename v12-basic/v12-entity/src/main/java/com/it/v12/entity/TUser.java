@@ -12,13 +12,13 @@ public class TUser implements Serializable{
 
     private String password;
 
-    private String email="jdijii";
+    private String email;
 
-    private String phone = "231";
+    private String phone;
 
-    private Date registDate = new Date();
+    private Date registDate;
 
-    private Date lastLoginDate = new Date();
+    private Date lastLoginDate;
 
     private Boolean start =false;
 

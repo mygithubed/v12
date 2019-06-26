@@ -23,10 +23,6 @@ public class EmailConsumer {
     @RabbitHandler
     @RabbitListener(queues = RabbitMQConstant.EMAIL_QUEUE)
     public void emailProcess(Map<String,String> map){
-        System.out.println(map.get("toAddress"));
-        System.out.println(map.get("subject"));
-        System.out.println(map.get("text"));
-
         //发送邮件
         emailService.send(map.get("toAddress"),map.get("subject"),map.get("text"));
     }

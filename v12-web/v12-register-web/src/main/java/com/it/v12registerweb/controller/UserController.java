@@ -15,6 +15,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -55,7 +56,13 @@ public class UserController {
 
     @RequestMapping("add")
     public String register(TUser user){
+        //设置flag为1 表示没有删除
         user.setFlag(true);
+        //设置创建时间和修改时间
+        user.setRegistDate(new Date());
+        user.setLastLoginDate(new Date());
+        //邮箱注册的手机号为空 设置为0
+        user.setPhone("0");
         int id = userService.insertSelective(user);
         System.out.println(user);
         if(id>0){
