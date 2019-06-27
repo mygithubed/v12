@@ -23,4 +23,6 @@ spring:
 mail:
     fromAddress: 2493360725@qq.com
 
+server:
+  port: 8083
 

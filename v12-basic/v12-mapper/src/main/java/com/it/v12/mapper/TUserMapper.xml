@@ -23,6 +23,18 @@
     from t_user
     where id = #{id,jdbcType=BIGINT}
   </select>
+<!--登入验证 查询用户是否存在-->
+  <select id="selectByUserName" parameterType="java.lang.String" resultMap="BaseResultMap">
+      SELECT
+        username,PASSWORD FROM
+        t_user WHERE
+        username = #{username,jdbcType=VARCHAR}
+        OR
+        phone = #{phone,jdbcType=VARCHAR}
+         AND flag=1 AND START =1
+  </select>
+
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_user
     where id = #{id,jdbcType=BIGINT}

@@ -4,6 +4,13 @@ spring:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
     password: root
+  redis:
+     host: 192.168.52.130
+     port: 6379
+     password: zzp
+     jedis:
+       pool:
+         max-active: 66
 
 dubbo:
   application:
@@ -13,3 +20,6 @@ dubbo:
     address: 192.168.52.130:2181
   protocol:
     port: 28812
+
+server:
+  port: 8083
