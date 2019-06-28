@@ -6,3 +6,5 @@ spring:
     default-encoding: utf-8
 mail:
     fromAddress: 2493360725@qq.com
+server:
+  port: 8097

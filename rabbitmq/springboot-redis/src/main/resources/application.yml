@@ -7,3 +7,5 @@ spring:
     jedis:
       pool:
         max-active: 66
+server:
+  port: 8095

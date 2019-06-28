@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author:曾志鹏
+ * @author :  曾志鹏
  * Date:2019/6/25
  * Time:20:27
  */
@@ -27,7 +27,7 @@ public class RabbitMQConfig {
 
     /**
      * 声明交换机 如果交换机不存在才会创建
-     * @return
+     * @return 交换机
      */
     @Bean
     public TopicExchange initTopic(){
@@ -37,9 +37,9 @@ public class RabbitMQConfig {
 
     /**
      * 绑定交换机
-     * @param initQuue
-     * @param topicExchange
-     * @return
+     * @param initQuue 队列的名称
+     * @param topicExchange 交换机
+     * @return 返回绑定
      */
     @Bean
     public Binding initBinding(Queue initQuue,TopicExchange initTopic){

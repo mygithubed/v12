@@ -46,14 +46,18 @@ public class UserController {
 
     /**
      * 前往注册的页面
-     * @return
+     * @return 返回到注册页面
      */
     @RequestMapping("register")
     public String toRegister(){
         return "register";
     }
 
-
+    /**
+     *  注册用户信息保存
+     * @param user 注册用户填写的信息
+     * @return 注册的状态
+     */
     @RequestMapping("add")
     public String register(TUser user){
         //设置flag为1 表示没有删除
@@ -79,14 +83,24 @@ public class UserController {
 
             /**发送消息到交换机**/
             Map<String,String> map = new HashMap<>();
+            //收件人的邮箱
             map.put("toAddress",user.getEmail());
+            //邮件的标题
             map.put("subject","疯狂购物商城的激活邮件");
+            //邮件的内容
             map.put("text",text);
+            //发送消息到交换机上
             rabbitTemplate.convertAndSend(RabbitMQConstant.REGISTER_EXCHAGE,"user_add",map);
         }
-        return "login";
+        //添加成功后前往登录页面，进行登入操作
+        return "redirect:http://localhost:9095/sso/tologin";
     }
 
+    /**
+     * 邮件激活用户
+     * @param uuid  激活码
+     * @return 进入激活页面
+     */
     @RequestMapping("activer/{uuid}")
     public String activerUser(@PathVariable String uuid){
         //在redis中查出对应的用户ID
@@ -95,6 +109,12 @@ public class UserController {
         userService.updateStart(id);
         return "activer";
     }
+
+    /**
+     *
+     * @param id
+     * @return
+     */
     @ResponseBody
     @RequestMapping("getById/{id}")
     public TUser getUserById(@PathVariable Long id){

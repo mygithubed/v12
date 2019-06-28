@@ -5,3 +5,6 @@ spring:
     username: zzp
     password: zzp
     virtual-host: /zzp
+server:
+  port: 8090
+

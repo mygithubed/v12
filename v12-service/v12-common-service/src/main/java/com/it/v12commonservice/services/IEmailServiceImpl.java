@@ -22,22 +22,21 @@ public class IEmailServiceImpl implements IEmailService {
     @Autowired
     private JavaMailSender javaMailSender;
 
-
+    /**发件人的地址**/
     @Value("${mail.fromAddress}")
     private String fromAddress;
 
     /**
      * 邮件的发送
-     * @param toAddress
-     * @param subject
-     * @param text
-     * @return
+     * @param toAddress 收件人的地址
+     * @param subject 邮件的标题
+     * @param text 邮件的正文
+     * @return 发送邮件的状态
      */
     @Override
     public RsetBean send(String toAddress, String subject, String text) {
 
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
         try {
             MimeMessageHelper helper = new MimeMessageHelper(mimeMessage,true);
             helper.setFrom(fromAddress);

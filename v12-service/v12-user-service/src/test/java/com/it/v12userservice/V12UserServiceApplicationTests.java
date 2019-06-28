@@ -34,7 +34,7 @@ public class V12UserServiceApplicationTests {
 
 	@Test
 	public void checkLoginStarts(){
-		RsetBean rsetBean = userService.checkLoginStarts("a5b91c7f-3319-4b5b-8f60-177ba34c5f87");
+		RsetBean rsetBean = userService.checkLoginStarts("a861b843-f41a-4407-82ac-c2a5cdc910c5");
 		System.out.println(rsetBean.getStatCodes());
 		TUser user = (TUser) rsetBean.getData();
 		if(user!=null){
@@ -48,8 +48,9 @@ public class V12UserServiceApplicationTests {
 
 	@Test
 	public void delteTest(){
-		RsetBean rsetBean = userService.loginOut("b6a649d6-890c-42af-b091-0009f7724255");
+		RsetBean rsetBean = userService.loginOut("a861b843-f41a-4407-82ac-c2a5cdc910c5");
 		System.out.println(rsetBean.getStatCodes());
 		System.out.println(rsetBean.getData());
+		System.out.println("Happy every day");
 	}
 }

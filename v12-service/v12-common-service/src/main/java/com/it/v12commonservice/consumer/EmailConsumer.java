@@ -10,7 +10,8 @@ import org.springframework.stereotype.Component;
 import java.util.Map;
 
 /**
- *@author:曾志鹏
+ * 邮件发送的任务
+ *@author : 曾志鹏
  * Date:2019/6/26
  * Time:11:50
  */
@@ -23,7 +24,7 @@ public class EmailConsumer {
     @RabbitHandler
     @RabbitListener(queues = RabbitMQConstant.EMAIL_QUEUE)
     public void emailProcess(Map<String,String> map){
-        //发送邮件
+        //执行发送邮件的任务
         emailService.send(map.get("toAddress"),map.get("subject"),map.get("text"));
     }
 }

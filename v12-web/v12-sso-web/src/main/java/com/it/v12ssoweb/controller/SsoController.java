@@ -1,12 +1,16 @@
 package com.it.v12ssoweb.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.it.v12.api.IUserService;
 import com.it.v12.common.constant.CookieConstant;
 import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.entity.TUser;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,7 +34,9 @@ public class SsoController {
      * @return 返回login.html
      */
     @RequestMapping("tologin")
-    public String toLogin(){
+    public String toLogin(HttpServletRequest request, Model model){
+        String referer = request.getHeader("Referer");
+        model.addAttribute("referer",referer);
         return "login";
     }
 
@@ -41,7 +47,7 @@ public class SsoController {
      * @return 页面的跳转
      */
     @RequestMapping("login")
-    public String login(TUser user, HttpServletResponse response){
+    public String login(TUser user, HttpServletResponse response,String referer){
         String code ="200";
         RsetBean checklogin =userService.checklogin(user);
         if(code.equals(checklogin.getStatCodes())){
@@ -51,7 +57,11 @@ public class SsoController {
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
             //跳转到首页
-            return "redirect:http://localhost:9091/index/home";
+            if(referer == null || referer == ""){
+                return "redirect:http://localhost:9091/index/home";
+            }
+            //跳转到之前的请求地址
+            return "redirect:"+referer;
         }
         //登入失败，返回登入的页面
         return "login";
@@ -64,6 +74,7 @@ public class SsoController {
      * @return 返回是否登入的状态
      */
     @RequestMapping("checkLoginStarts")
+    @CrossOrigin(origins = "*",allowCredentials = "true")
     @ResponseBody
     public RsetBean checkLoginStarts(HttpServletRequest request){
         Cookie[] cookies = request.getCookies();
@@ -109,10 +120,35 @@ public class SsoController {
             //使cooker失效
             cookie.setMaxAge(0);
             response.addCookie(cookie);
-            //删除redis中的凭证 UUID
-            return userService.loginOut(uuid);
+            //删除redis中的凭证 UUID  TODO 标记 只有在使用redis的时候才需要调用
+            /**return userService.loginOut(uuid);**/
+
+            return  new RsetBean("200","注销成功！");
         }
         return new RsetBean("404","登入失效了！");
+    }
+
+
+    /**
+     *  简化代码的方式 实现验证是否登入了
+     * @param uuid 存入的凭证
+     * @return 返回是否登入的消息
+     */
+    @RequestMapping("checkIsLoginJsonp")
+    @ResponseBody
+    public String checkIsLoginJsonp(@CookieValue(name = CookieConstant.CK_TOKEN,required = false)String uuid,
+                                    String callback) throws JsonProcessingException {
+        RsetBean resultBean = null;
+        if(uuid != null){
+            resultBean = userService.checkLoginStarts(uuid);
+        }else{
+            resultBean = new RsetBean("404",null);
+        }
+        //将对象转换为json
+        ObjectMapper objectMapper = new ObjectMapper();
+        String json = objectMapper.writeValueAsString(resultBean);
+        //回调客户端的方法
+        return callback+"("+json+")";
     }
 
 }

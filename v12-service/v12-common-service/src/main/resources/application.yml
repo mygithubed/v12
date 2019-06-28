@@ -13,6 +13,7 @@ spring:
     username: 2493360725@qq.com
     password: kkjixwrgflqueacf
     default-encoding: utf-8
+
   rabbitmq:
       host: 192.168.52.130
       port: 5672

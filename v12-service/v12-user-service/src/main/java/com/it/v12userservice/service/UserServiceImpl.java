@@ -8,6 +8,8 @@ import com.it.v12.common.constant.CookieConstant;
 import com.it.v12.common.pojo.RsetBean;
 import com.it.v12.entity.TUser;
 import com.it.v12.mapper.TUserMapper;
+import com.it.v12userservice.utils.JwtUtils;
+import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -53,35 +55,82 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
         TUser creatUser =  userMapper.selectByUserName(user.getUsername());
         if(creatUser!=null){
             if(creatUser.getPassword().equals(user.getPassword())){
-                //将凭证存在redis中去
-                //创建凭证
-                String uuid = UUID.randomUUID().toString();
-                String key = new StringBuilder(CookieConstant.USER_TOKEN).append(uuid).toString();
-                //将密码的值去除
-                user.setPassword("");
-                redisTemplate.opsForValue().set(key,user);
-                //设置有效时间
-                redisTemplate.expire(key,30, TimeUnit.MINUTES);
-              return  new RsetBean("200",uuid);
+                //使用redis的方式实现  调用下面的方法 TODO 标记
+                /**String uuid = getString(user);**/
+
+                //使用jjwt的方式
+                JwtUtils jwtUtils = new JwtUtils();
+                jwtUtils.setSecretKey("zzp123");
+                jwtUtils.setTtl(30*60*1000);
+                //令牌
+                String uuid = jwtUtils.createJwtToken(creatUser.getId().toString(),creatUser.getUsername());
+
+                return  new RsetBean("200",uuid);
             }
         }
         return new RsetBean("404","登入失败！");
     }
 
+    /**
+     * 使用redis的方式来实现的 将凭证存入redis中
+     * @param user
+     * @return
+     */
+    private String getString(TUser user) {
+        //将凭证存在redis中去
+        //创建凭证
+        String uuid = UUID.randomUUID().toString();
+        String key = new StringBuilder(CookieConstant.USER_TOKEN).append(uuid).toString();
+        //将密码的值去除
+        user.setPassword("");
+        redisTemplate.opsForValue().set(key,user);
+        //设置有效时间
+        redisTemplate.expire(key,30, TimeUnit.MINUTES);
+        return uuid;
+    }
+
     @Override
     public RsetBean checkLoginStarts(String uuid) {
+
+        try {
+            //使用jjwt的方式来实现的
+            JwtUtils jwtUtils = new JwtUtils();
+            jwtUtils.setSecretKey("zzp123");
+            Claims claims = jwtUtils.parseJwtToken(uuid);
+            //如何刷新有效的凭证  TODO
+            return new RsetBean("200",claims.getSubject());
+
+        }catch (Exception e){
+            return new RsetBean("404",null);
+
+        }
+        //之前使用redis的方式来实现的 ，调用下面的方法 TODO 标记
+       //return getRsetBean(uuid);
+    }
+
+    /**
+     * 使用redis的方式 来判断用户是否存在 并将刷新 有效期
+     * @param uuid
+     * @return
+     */
+    private RsetBean getRsetBean(String uuid) {
         //拼接存入的key值
         String key = new StringBuilder(CookieConstant.USER_TOKEN).append(uuid).toString();
         //在redis中查询该值是否存在
         TUser loginUser = (TUser)redisTemplate.opsForValue().get(key);
         if(loginUser!=null){
             //需要刷新有效期  还是置为30分钟
-            redisTemplate.expire(key,30,TimeUnit.MINUTES);
+            redisTemplate.expire(key,30, TimeUnit.MINUTES);
             return new RsetBean("200",loginUser);
         }
         return new RsetBean("404",null);
     }
 
+    /**
+     * 使用redis的方式才有退出登入
+     * @param uuid 用户的凭证信息
+     * @return
+     */
     @Override
     public RsetBean loginOut(String uuid) {
         //拼接存入的key值

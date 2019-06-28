@@ -15,7 +15,9 @@
 <!--top 开始-->
 <div class="top">
     <div class="top-con w1200">
-        <p class="t-con-l f-l">您好，欢迎来到宅客微购</p>
+        <p class="t-con-l f-l">
+                您好，欢迎来到宅客微购
+        </p>
         <ul class="t-con-r f-r">
             <li><a href="#">我 (个人中心)</a></li>
             <li><a href="#">我的购物车</a></li>
@@ -39,8 +41,8 @@
     </div>
     <div class="dianji f-r">
         <div class="btn1">
-            <button class="btn1-l">注册</button>
-            <button class="btn1-r">登录</button>
+            <button class="btn1-l" id="bt_Register">注册</button>
+            <button class="btn1-r" id="bt_Login">登录</button>
             <div style="clear:both;"></div>
         </div>
         <button class="btn2">商家入口    ></button>
@@ -1437,14 +1439,47 @@
 </div>
 
 <script src="js/jquery-1.4.2.min.js"></script>
+<!--
+
+<script type="text/javascript">
+    function deal(data){
+        console.log(data);
+    }
+
+</script>
+<script src="http://localhost:9095/sso/checkIsLoginJsonp?callback=deal"></script>
+
+-->
+
 <script type="text/javascript">
  $(function () {
+
      $("#selectWord").click(function () {
          //获取输入框中的值
         var keywords = $("#keyWords").val();
         //发送请求
          location.href="http://localhost:9092/search/selectByWords?keywords="+keywords;
      });
+
+     $.ajax({
+         url:"http://localhost:9095/sso/checkLoginStarts",
+         crossDomain:true,
+         xhrFields:{withCredentials:true},
+         success:function (data) {
+             console.log(data);
+         }
+     });
+
+
+     //登入按钮的跳转
+     $("#bt_Login").click(function () {
+         $(window).attr('location',"http://localhost:9095/sso/tologin");
+     });
+
+     //注册的按钮功能实现
+     $("#bt_Register").click(function () {
+         $(window).attr('location',"http://localhost:9094/user/register");
+     })
  })
 
 </script>

@@ -8,7 +8,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 /**
  *
- * @author:曾志鹏
+ * @author : 曾志鹏
  * Date:2019/6/24
  * Time:20:03
  */
@@ -17,10 +17,15 @@ public class RedisConfig {
 
     @Bean(name = "stringReadis")
     public RedisTemplate<String,Object> getRedisTemplate(RedisConnectionFactory redisConnectionFactory){
+        //创建redis的模板
         RedisTemplate redisTemplate = new RedisTemplate();
+
         redisTemplate.setConnectionFactory(redisConnectionFactory);
+
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+
         redisTemplate.setValueSerializer(new StringRedisSerializer());
+
         return redisTemplate;
 
     }
