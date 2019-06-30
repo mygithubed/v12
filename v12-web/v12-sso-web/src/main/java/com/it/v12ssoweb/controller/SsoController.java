@@ -57,7 +57,7 @@ public class SsoController {
             cookie.setHttpOnly(true);
             response.addCookie(cookie);
             //跳转到首页
-            if(referer == null || referer == ""){
+            if(referer == null || "".equals(referer)){
                 return "redirect:http://localhost:9091/index/home";
             }
             //跳转到之前的请求地址

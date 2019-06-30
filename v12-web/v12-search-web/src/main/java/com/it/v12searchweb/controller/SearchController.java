@@ -39,14 +39,15 @@ public class SearchController {
      * @param model
      * @return
      */
-    @RequestMapping("page/{index}/{size}")
+    @RequestMapping("page/{index}")
     public String pageList(@PathVariable("index") Long index,
-                           @PathVariable("size") Long size,
                            String keywords,
                             Model model){
+        Long size =3L;
         PageResultBean pageResultBeanRsetBean = searchApi.searchPagesByKeyWord(keywords, index, size);
         //将数据存到model中
-        model.addAttribute("list",pageResultBeanRsetBean);
+        model.addAttribute("pages",pageResultBeanRsetBean);
+        model.addAttribute("keywords",keywords);
         //页面的回显
         return "pageList";
     }

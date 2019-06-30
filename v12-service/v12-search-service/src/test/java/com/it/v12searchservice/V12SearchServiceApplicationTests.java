@@ -33,11 +33,20 @@ public class V12SearchServiceApplicationTests {
 
 	@Test
 	public void queryPages(){
-		PageResultBean pageResultBean = searchApi.searchPagesByKeyWord("华为", 1L, 2L);
+		PageResultBean<TProduct> pageResultBean = searchApi.searchPagesByKeyWord("华为", 1L, 3L);
 
-		for (Object o : pageResultBean.getList()) {
-			
+		for (TProduct product : pageResultBean.getList()) {
+			System.out.println(product.getId());
+			System.out.println(product.getName());
 		}
+
+		for (int i = 0; i < pageResultBean.getNavigatepageNums().length; i++) {
+			System.out.println(i);
+		}
+		System.out.println(pageResultBean.getNavigatepageNums());
+		System.out.println(pageResultBean.getPages()+"===========总页数");
+		System.out.println(pageResultBean.getPageNum());
+		System.out.println(pageResultBean.getTotal());
 
 		/*RsetBean<PageResultBean> rsetBean = searchApi.searchPagesByKeyWord("华为", 1L, 2L);
 		System.out.println("每页显示的条数："+rsetBean.getData().getPageSize());

@@ -4,7 +4,7 @@
 <head>
     <base href="/">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>搜索列表页(搜索商家)</title>
+    <title>搜索列表页(搜索商家pageList)</title>
     <link rel="stylesheet" type="text/css" href="css/style.css" />
     <link rel="stylesheet" type="text/css" href="css/shopping-mall-index.css" />
     <script type="text/javascript" src="js/jquery.js"></script>
@@ -820,30 +820,6 @@
                     <p class="pingjia">88888评价</p>
                     <p class="weike">微克宅购自营</p>
                 </li>
-                <li>
-                    <div class="li-top">
-                        <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
-                        <p class="jiage"><span class="sp1">￥109</span><span class="sp2">￥209</span></p>
-                    </div>
-                    <p class="miaoshu">德国原装进口Wurenbacher瓦伦冰黑啤5L/桶</p>
-                    <div class="li-md">
-                        <div class="md-l f-l">
-                            <p class="md-l-l f-l" ap="">1</p>
-                            <div class="md-l-r f-l">
-                                <a href="JavaScript:;" class="md-xs" at="">∧</a>
-                                <a href="JavaScript:;" class="md-xx" ab="">∨</a>
-                            </div>
-                            <div style="clear:both;"></div>
-                        </div>
-                        <div class="md-r f-l">
-                            <button class="md-l-btn1">立即购买</button>
-                            <button class="md-l-btn2">加入购物车</button>
-                        </div>
-                        <div style="clear:both;"></div>
-                    </div>
-                    <p class="pingjia">88888评价</p>
-                    <p class="weike">微克宅购自营</p>
-                </li>
                 <li style="border-bottom:0;">
                     <div class="li-top">
                         <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" /></a>
@@ -913,7 +889,7 @@
         </div>
         <div class="shop-right-con">
             <ul class="shop-ul-tu shop-ul-tu1">
-                <li th:each="p :${list.data}">
+                <li th:each="p :${pages.list}">
                     <div class="li-top">
                         <a href="#" class="li-top-tu"><img src="images/sp-con-r-tu.gif" th:src="${p.images}" style="width: 80px; height: 80px;"/></a>
                         <p class="jiage"><span class="sp1" th:text="${p.salePrice}" >￥109</span><span class="sp2" th:text="${p.price}">￥209</span></p>
@@ -943,26 +919,24 @@
             <!--分页-->
             <div class="paging">
                 <div class="pag-left f-l">
-                    <a href="#" class="about left-r f-l"><</a>
+                    <a href="#" th:href="|search/page/${pages.pageNum > 1 ? pages.pageNum-1:pages.pageNum}?keywords=${keywords}|" class="about left-r f-l"><</a>
                     <ul class="left-m f-l">
-                        <li><a href="#">1</a></li>
-                        <li class="current"><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li><a href="#">6</a></li>
-                        <li><a href="#">...</a></li>
-                        <li><a href="#">100</a></li>
+                        <li th:each="pNum:${pages.navigatepageNums}"
+                            th:class="${pages.pageNum == pNum ? 'current' : ''}"
+                            >
+                            <a href="#" th:href="|search/page/${pNum}?keywords=${keywords}|" th:text="${pNum}">1</a>
+                        </li>
                         <div style="clear:both;"></div>
                     </ul>
-                    <a href="#" class="about left-l f-l">></a>
+                    <a href="#" class="about left-l f-l" th:href="|search/page/${pages.pageNum < pages.pages ? pages.pageNum+1 : pages.pages}?keywords=${keywords}|">></a>
                     <div style="clear:both;"></div>
                 </div>
                 <div class="pag-right f-l">
                     <div class="jump-page f-l">
-                        到第<input type="text" />页
+                        到第<input type="text" id="toPagesNums"/>页
                     </div>
-                    <button class="f-l">确定</button>
+                    <input type="hidden" th:value="${pages.pages}" id="totalPages">
+                    <button class="f-l" id="toPages">确定</button>
                     <div style="clear:both;"></div>
                 </div>
                 <div style="clear:both;"></div>
@@ -1047,7 +1021,26 @@
             //获取输入框中的值
             var keywords = $("#keyWords").val();
             //发送请求
-            location.href="http://localhost:9092/search/selectByWords?keywords="+keywords;
+            location.href="http://localhost:9092/search/page/1?keywords="+keywords;
+        });
+
+        //跳转到指定的页面
+        $("#toPages").click(function () {
+            var nums = $("#toPagesNums").val();
+
+            var totalPages = $("#totalPages").val();
+
+            var keyWords = $("#keyWords").val();
+
+            if(nums<=0){
+                alert("不好意思页数不能小于1！");
+                window.location.href="search/page/1?keywords="+keyWords;
+            }else if(nums>totalPages){
+                alert("不好意思超过了总页数！");
+                window.location.href="search/page/"+totalPages+"?keywords="+keyWords;
+            }else{
+                window.location.href="search/page/"+nums+"?keywords="+keyWords;
+            }
         });
     })
 </script>

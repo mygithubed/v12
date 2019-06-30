@@ -15,10 +15,7 @@ import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author:曾志鹏
@@ -43,6 +40,9 @@ public class UserController {
 
     @Resource(name="stringReadis")
     private RedisTemplate<String,Object> redisTemplate;
+
+
+
 
     /**
      * 前往注册的页面
@@ -120,6 +120,49 @@ public class UserController {
     public TUser getUserById(@PathVariable Long id){
         TUser tUser = userService.selectByPrimaryKey(id);
         return tUser;
+    }
+
+    @ResponseBody
+    @RequestMapping("toSendSms/{phoneNumber}")
+    public String SendSms(@PathVariable String phoneNumber){
+
+
+        System.out.println(phoneNumber);
+
+
+        //生成4位数的随机数
+        String code = String.valueOf((int)((Math.random()*9+1)*1000));
+
+        //在Redis中保存验证码
+        redisTemplate.opsForValue().set("user:code",code);
+
+        /**发送消息到交换机**/
+        Map<String,String> map = new HashMap<>();
+        //手机号
+        map.put("toPhone",phoneNumber);
+        //验证码
+        map.put("code",code);
+        //发送消息到交换机上
+        rabbitTemplate.convertAndSend(RabbitMQConstant.REGISTER_EXCHAGE,"user_add_phone",map);
+
+        return "200";
+    }
+
+
+    @RequestMapping("addByPhone")
+    public String addByPhone(TUser user){
+        //设置flag为1 表示没有删除
+        user.setFlag(true);
+        //设置创建时间和修改时间
+        user.setRegistDate(new Date());
+        user.setLastLoginDate(new Date());
+        //邮箱注册的手机号为空 设置为0
+        user.setEmail("0");
+        int id = userService.insertSelective(user);
+        if(id>0){
+
+        }
+        return  "";
     }
 
 }

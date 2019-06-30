@@ -201,7 +201,7 @@ public class SearchServiceImpl implements ISearchApi {
      * @return
      */
     @Override
-    public PageResultBean searchPagesByKeyWord(String searchWords, Long pageIndex, Long pageSize) {
+    public PageResultBean<TProduct> searchPagesByKeyWord(String searchWords, Long pageIndex, Long pageSize) {
         //构建查询的条件
         SolrQuery solrQuery = new SolrQuery();
         //进行非空的判断
@@ -288,11 +288,9 @@ public class SearchServiceImpl implements ISearchApi {
             //==========================
         } catch (SolrServerException | IOException e) {
             e.printStackTrace();
-            //return new  RsetBean("404","null");
         }
         //进行查询
         return pageResultBean;
-       // return new RsetBean("200",pageResultBean);
     }
 
 

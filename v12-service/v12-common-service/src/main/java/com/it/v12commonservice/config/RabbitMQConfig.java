@@ -25,6 +25,7 @@ public class RabbitMQConfig {
     }
 
 
+
     /**
      * 声明交换机 如果交换机不存在才会创建
      * @return 交换机
@@ -44,5 +45,16 @@ public class RabbitMQConfig {
     @Bean
     public Binding initBinding(Queue initQuue,TopicExchange initTopic){
       return  BindingBuilder.bind(initQuue).to(initTopic).with("user_add");
+    }
+
+    /**
+     * 绑定交换机
+     * @param initQuue 队列的名称
+     * @param topicExchange 交换机
+     * @return 返回绑定
+     */
+    @Bean
+    public Binding initBindings(Queue initQuue,TopicExchange initTopic){
+        return  BindingBuilder.bind(initQuue).to(initTopic).with("user_add_phone");
     }
 }

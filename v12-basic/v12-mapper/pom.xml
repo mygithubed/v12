@@ -42,7 +42,6 @@
 
     </dependencies>
 
-
     <!--加载mapper的XML配置文件-->
     <build>
         <resources>
