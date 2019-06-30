@@ -47,19 +47,51 @@ public class CartServiceImpl implements ICartService {
         return new RsetBean("200","添加购物车成功！");
     }
 
+    /**
+     *  删除商品
+     * @param uuid ID
+     * @param productId 商品的ID
+     * @return
+     */
     @Override
     public RsetBean remove(String uuid, Long productId) {
         //构建一个key
         String key=  new StringBuilder("user:cart:").append(uuid).toString();
-        redisTemplate.delete(key);
-        return null;
+        Long deleteLong = redisTemplate.opsForHash().delete(key, productId.toString());
+        if(deleteLong>0){
+            //刷新有效期
+            redisTemplate.expire(key,7,TimeUnit.DAYS);
+            return  new RsetBean("200","删除成功！");
+        }
+        return new RsetBean("404","删除失败！");
     }
 
     @Override
     public RsetBean update(String uuid, Long productId, Integer count) {
-        return null;
+        //构建一个key
+        String key=  new StringBuilder("user:cart:").append(uuid).toString();
+        //查询有没有
+        CartItem item =(CartItem) redisTemplate.opsForHash().get(key, productId.toString());
+        if(item != null){
+            //更改数量
+            item.setCount(count);
+            //更新时间
+            item.setUpdateDate(new Date());
+            //保存
+            redisTemplate.opsForHash().put(key,productId.toString(),item);
+            //刷新有效期
+            redisTemplate.expire(key,7,TimeUnit.DAYS);
+
+            return  new RsetBean("200","购物车商品更新成功！");
+        }
+        return new RsetBean("404","购物车更新失败！");
     }
 
+    /***
+     *  查询
+     * @param uuid 客户端保存的ID
+     * @return
+     */
     @Override
     public RsetBean query(String uuid) {
         //构建一个key
@@ -73,6 +105,8 @@ public class CartServiceImpl implements ICartService {
             CartItem item = (CartItem)cart.getValue();
             cartItems.add(item);
         }
+        //刷新有效期
+        redisTemplate.expire(key,7,TimeUnit.DAYS);
         return new RsetBean("200",cartItems);
     }
 }
