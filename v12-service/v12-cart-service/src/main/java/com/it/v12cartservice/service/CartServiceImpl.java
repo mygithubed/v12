@@ -3,7 +3,10 @@ package com.it.v12cartservice.service;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.it.v12.api.ICartService;
 import com.it.v12.common.pojo.RsetBean;
+import com.it.v12.mapper.TProductMapper;
 import com.it.v12.pojo.CartItem;
+import com.it.v12.vo.CartItemVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import javax.annotation.Resource;
@@ -23,6 +26,9 @@ public class CartServiceImpl implements ICartService {
 
     @Resource(name="myRedisTemlate")
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private TProductMapper productMapper;
 
     @Override
     public RsetBean add(String uuid, Long productId, Integer count) {
@@ -87,13 +93,40 @@ public class CartServiceImpl implements ICartService {
         return new RsetBean("404","购物车更新失败！");
     }
 
+    @Override
+    public RsetBean query(String uuid) {
+        //构建一个key
+        String key=  new StringBuilder("user:cart:").append(uuid).toString();
+        //获取购物车中的所有内容
+        Map<Object,Object> cartMap = redisTemplate.opsForHash().entries(key);
+        //需要排序？？
+        TreeSet<CartItemVO> cartItems= new TreeSet<>();
+
+        Set<Map.Entry<Object, Object>> carts = cartMap.entrySet();
+        for (Map.Entry<Object, Object> cart : carts) {
+            CartItem item = (CartItem)cart.getValue();
+
+            //创建一个VO类
+            CartItemVO  cartItemVO = new CartItemVO();
+            cartItemVO.setCount(item.getCount());
+            cartItemVO.setUpdateTime(item.getUpdateDate());
+            //TODO 如何优化
+            cartItemVO.setProduct(productMapper.selectByPrimaryKey(item.getProduct_id()));
+
+            cartItems.add(cartItemVO);
+
+        }
+        //刷新有效期
+        redisTemplate.expire(key,7,TimeUnit.DAYS);
+        return new RsetBean("200",cartItems);
+    }
+
     /***
      *  查询
      * @param uuid 客户端保存的ID
      * @return
      */
-    @Override
-    public RsetBean query(String uuid) {
+    public RsetBean getCartItem(String uuid) {
         //构建一个key
         String key=  new StringBuilder("user:cart:").append(uuid).toString();
         //获取购物车中的所有内容

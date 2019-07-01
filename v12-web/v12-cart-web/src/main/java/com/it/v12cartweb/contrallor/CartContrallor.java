@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
@@ -68,12 +67,13 @@ public class CartContrallor {
             return new RsetBean("404","购物车不存在！");
         }
         RsetBean query = cartService.query(uuid);
-
         String sucess = "200";
         if(sucess.equals(query.getStatCodes())){
             //刷新cooker中的有效期
             cookReflush(uuid, response);
         }
+
+
         return query;
     }
 
@@ -89,5 +89,56 @@ public class CartContrallor {
         cookie.setHttpOnly(true);
         cookie.setMaxAge(7*24*60*60);
         response.addCookie(cookie);
+    }
+
+
+    /**
+     * 删除购物车
+     * @param uuid
+     * @param response
+     * @return
+     */
+    @RequestMapping("del/{productId}")
+    @ResponseBody
+    public RsetBean del(@CookieValue(name = "user_cart",required = false) String uuid,
+                      @PathVariable("productId") Long productId,
+                        HttpServletResponse response){
+
+    if(uuid == null || "".equals(uuid)){
+        return new RsetBean("404","购物车为空！");
+    }
+        RsetBean remove = cartService.remove(uuid,productId);
+        String sucess = "200";
+        if(sucess.equals(remove.getStatCodes())){
+            //刷新cooker中的有效期
+            cookReflush(uuid, response);
+        }
+        return remove;
+    }
+
+    /**
+     * 更新购物车信息
+     * @param uuid 购物车
+     * @param productId 商品的ID
+     * @param count 商品的和数量
+     * @param response 响应
+     * @return
+     */
+    @RequestMapping("update/{productId}/{count}")
+    @ResponseBody
+    public RsetBean update(@CookieValue(name = "user_cart",required = false) String uuid,
+                           @PathVariable("productId") Long productId,
+                           @PathVariable("count") Integer count,
+                           HttpServletResponse response){
+        if(uuid == null || "".equals(uuid)){
+            return new RsetBean("404","购物车为空！");
+        }
+        RsetBean update = cartService.update(uuid,productId,count);
+        String sucess = "200";
+        if(sucess.equals(update.getStatCodes())){
+            //刷新cooker中的有效期
+            cookReflush(uuid, response);
+        }
+        return update;
     }
 }

@@ -1,0 +1,11 @@
+dubbo:
+  application:
+    name: cart_web
+  registry:
+    protocol: zookeeper
+    address: 192.168.52.130:2181
+
+server:
+  port: 9096
+
+
