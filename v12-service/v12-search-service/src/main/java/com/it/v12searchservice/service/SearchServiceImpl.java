@@ -218,9 +218,7 @@ public class SearchServiceImpl implements ISearchApi {
         solrQuery.setHighlightSimplePre("<font color='red'>");
         //后置
         solrQuery.setHighlightSimplePost("</font>");
-
         PageResultBean<TProduct> pageResultBean = new PageResultBean<>();
-
         //分页的设置
         if(pageIndex<0L){
             pageIndex =1L;
@@ -235,20 +233,15 @@ public class SearchServiceImpl implements ISearchApi {
         solrQuery.setRows(pageSize.intValue());
         //存储总的记录数
         long numFound = 0L;
-
         List<TProduct> productList = null;
         try {
             QueryResponse response = solrClient.query(solrQuery);
             SolrDocumentList results = response.getResults();
-
-            //
             //总记录数
-             numFound = results.getNumFound();
-            //
+            numFound = results.getNumFound();
             productList = new ArrayList<>(results.size());
             //获取进行了高亮的信息
             Map<String, Map<String, List<String>>> highlighting = response.getHighlighting();
-
             for (SolrDocument document : results) {
                 TProduct product = new TProduct();
                 product.setId(Long.parseLong(document.getFieldValue("id").toString()));
@@ -267,11 +260,8 @@ public class SearchServiceImpl implements ISearchApi {
                     //没有高亮信息的时候
                     product.setName(document.getFieldValue("product_name").toString());
                 }
-                //
                 productList.add(product);
             }
-            //===============================
-
             //总的记录数
             pageResultBean.setTotal(numFound);
             //每页显示多少条
@@ -285,13 +275,9 @@ public class SearchServiceImpl implements ISearchApi {
             pageResultBean.setNavigatePages(pages);
             //查询出来的集合数据
             pageResultBean.setList(productList);
-            //==========================
         } catch (SolrServerException | IOException e) {
             e.printStackTrace();
         }
-        //进行查询
         return pageResultBean;
     }
-
-
 }

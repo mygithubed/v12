@@ -7,6 +7,7 @@ import com.it.v12.entity.TUser;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,8 @@ public class UserController {
     @Resource(name="stringReadis")
     private RedisTemplate<String,Object> redisTemplate;
 
-
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
     /**
@@ -67,6 +69,15 @@ public class UserController {
         user.setLastLoginDate(new Date());
         //邮箱注册的手机号为空 设置为0
         user.setPhone("0");
+
+        /**
+                //先获取用户输入的密码
+                String password = user.getPassword();
+                //给密码加密
+                String encode = bCryptPasswordEncoder.encode(password);
+                user.setPassword(encode);
+        **/
+
         int id = userService.insertSelective(user);
         System.out.println(user);
         if(id>0){

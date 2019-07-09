@@ -36,7 +36,6 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
         return userMapper;
     }
 
-
     @Override
     public int insertSelective(TUser record) {
         super.insertSelective(record);
@@ -54,6 +53,7 @@ public class UserServiceImpl extends BaseServiceImpl<TUser> implements IUserServ
         //数据库中查询用否是否存在
         TUser creatUser =  userMapper.selectByUserName(user.getUsername());
         if(creatUser!=null){
+            //TODO  解密的操作
             if(creatUser.getPassword().equals(user.getPassword())){
                 //使用redis的方式实现  调用下面的方法 TODO 标记
                 /**String uuid = getString(user);**/

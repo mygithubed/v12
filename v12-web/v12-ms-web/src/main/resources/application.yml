@@ -1,0 +1,15 @@
+server:
+  port: 8999
+
+spring:
+  datasource:
+    url: jdbc:mysql://192.168.52.130:3306/v11?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+  redis:
+    host: 192.168.52.130
+    password: zzp
+
+mybatis:
+  mapper-locations: classpath:/mapper/*.xml

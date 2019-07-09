@@ -72,8 +72,6 @@ public class CartContrallor {
             //刷新cooker中的有效期
             cookReflush(uuid, response);
         }
-
-
         return query;
     }
 
@@ -91,7 +89,6 @@ public class CartContrallor {
         response.addCookie(cookie);
     }
 
-
     /**
      * 删除购物车
      * @param uuid
@@ -103,10 +100,9 @@ public class CartContrallor {
     public RsetBean del(@CookieValue(name = "user_cart",required = false) String uuid,
                       @PathVariable("productId") Long productId,
                         HttpServletResponse response){
-
-    if(uuid == null || "".equals(uuid)){
-        return new RsetBean("404","购物车为空！");
-    }
+        if(uuid == null || "".equals(uuid)){
+            return new RsetBean("404","购物车为空！");
+        }
         RsetBean remove = cartService.remove(uuid,productId);
         String sucess = "200";
         if(sucess.equals(remove.getStatCodes())){
@@ -130,6 +126,7 @@ public class CartContrallor {
                            @PathVariable("productId") Long productId,
                            @PathVariable("count") Integer count,
                            HttpServletResponse response){
+        //判断购物车是否存在
         if(uuid == null || "".equals(uuid)){
             return new RsetBean("404","购物车为空！");
         }

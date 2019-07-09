@@ -29,6 +29,7 @@ public class SsoController {
 
     @Reference
     private IUserService userService;
+
     /**
      * 前往登入的页面
      * @return 返回login.html
